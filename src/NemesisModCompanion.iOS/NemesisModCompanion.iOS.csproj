@@ -137,9 +137,17 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NemesisModCompanion.Core.Domain\NemesisModCompanion.Core.Domain.csproj">
+      <Project>{bd6a7dbb-9f90-4aac-842c-a9496ac1ff43}</Project>
+      <Name>NemesisModCompanion.Core.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NemesisModCompanion.Core.Services\NemesisModCompanion.Core.Services.csproj">
+      <Project>{a1f10733-66eb-40dc-91cc-4cf136ee0682}</Project>
+      <Name>NemesisModCompanion.Core.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NemesisModCompanion\NemesisModCompanion.csproj">
       <Project>{a16025de-3a4e-4290-b038-1db08a1d5594}</Project>
-      <Name>Nemesis-Mod-Companion</Name>
+      <Name>NemesisModCompanion</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
