@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Nemesis_Mod_Companion.Models;
+using NemesisModCompanion.Models;
 
-namespace Nemesis_Mod_Companion.Services
+namespace NemesisModCompanion.Services
 {
     public class MockDataStore : IDataStore<Item>
     {

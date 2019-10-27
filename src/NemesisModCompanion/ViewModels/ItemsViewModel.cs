@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Nemesis_Mod_Companion.Models;
-using Nemesis_Mod_Companion.Views;
+using NemesisModCompanion.Models;
+using NemesisModCompanion.Views;
 using Xamarin.Forms;
 
-namespace Nemesis_Mod_Companion.ViewModels
+namespace NemesisModCompanion.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Nemesis_Mod_Companion.Services;
-using Nemesis_Mod_Companion.Views;
+using NemesisModCompanion.Services;
+using NemesisModCompanion.Views;
 
-namespace Nemesis_Mod_Companion
+namespace NemesisModCompanion
 {
     public partial class App : Application
     {

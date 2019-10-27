@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Nemesis_Mod_Companion.Services
+namespace NemesisModCompanion.Services
 {
     public interface IDataStore<T>
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Nemesis_Mod_Companion.Models;
-using Nemesis_Mod_Companion.Services;
+using NemesisModCompanion.Models;
+using NemesisModCompanion.Services;
 using Xamarin.Forms;
 
-namespace Nemesis_Mod_Companion.ViewModels
+namespace NemesisModCompanion.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

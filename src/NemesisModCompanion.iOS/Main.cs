@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace Nemesis_Mod_Companion.iOS
+namespace NemesisModCompanion.iOS
 {
     public static class Application
     {

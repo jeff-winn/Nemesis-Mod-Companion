@@ -1,6 +1,6 @@
-﻿using Nemesis_Mod_Companion.Models;
+﻿using NemesisModCompanion.Models;
 
-namespace Nemesis_Mod_Companion.ViewModels
+namespace NemesisModCompanion.ViewModels
 {
     public class ItemDetailViewModel : BaseViewModel
     {

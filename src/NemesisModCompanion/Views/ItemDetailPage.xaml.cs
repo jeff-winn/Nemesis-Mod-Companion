@@ -3,10 +3,10 @@ using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Nemesis_Mod_Companion.Models;
-using Nemesis_Mod_Companion.ViewModels;
+using NemesisModCompanion.Models;
+using NemesisModCompanion.ViewModels;
 
-namespace Nemesis_Mod_Companion.Views
+namespace NemesisModCompanion.Views
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer

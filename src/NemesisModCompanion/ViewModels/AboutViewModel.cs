@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Nemesis_Mod_Companion.ViewModels
+namespace NemesisModCompanion.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {

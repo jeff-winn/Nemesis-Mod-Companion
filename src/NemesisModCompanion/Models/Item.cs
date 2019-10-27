@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nemesis_Mod_Companion.Models
+namespace NemesisModCompanion.Models
 {
     public class Item
     {

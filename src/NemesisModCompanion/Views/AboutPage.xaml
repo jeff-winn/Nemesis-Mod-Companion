@@ -3,8 +3,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Nemesis_Mod_Companion.Views.AboutPage"
-             xmlns:vm="clr-namespace:Nemesis_Mod_Companion.ViewModels"
+             x:Class="NemesisModCompanion.Views.AboutPage"
+             xmlns:vm="clr-namespace:NemesisModCompanion.ViewModels"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>

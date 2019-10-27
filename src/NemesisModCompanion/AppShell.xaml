@@ -3,9 +3,9 @@
        xmlns:d="http://xamarin.com/schemas/2014/forms/design"
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        mc:Ignorable="d"
-       xmlns:local="clr-namespace:Nemesis_Mod_Companion.Views"
-       Title="Nemesis_Mod_Companion"
-       x:Class="Nemesis_Mod_Companion.AppShell">
+       xmlns:local="clr-namespace:NemesisModCompanion.Views"
+       Title="NemesisModCompanion"
+       x:Class="NemesisModCompanion.AppShell">
 
     <!-- 
         Styles and Resources 
