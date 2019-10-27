@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29418.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nemesis-Mod-Companion.iOS", "src\Nemesis-Mod-Companion.iOS\Nemesis-Mod-Companion.iOS.csproj", "{B1899265-F69F-4536-BC2C-2E22841E6737}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NemesisModCompanion.iOS", "src\NemesisModCompanion.iOS\NemesisModCompanion.iOS.csproj", "{B1899265-F69F-4536-BC2C-2E22841E6737}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemesis-Mod-Companion", "src\Nemesis-Mod-Companion\Nemesis-Mod-Companion.csproj", "{A16025DE-3A4E-4290-B038-1DB08A1D5594}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemesisModCompanion", "src\NemesisModCompanion\NemesisModCompanion.csproj", "{A16025DE-3A4E-4290-B038-1DB08A1D5594}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

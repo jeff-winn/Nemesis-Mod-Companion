@@ -137,7 +137,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nemesis-Mod-Companion\Nemesis-Mod-Companion.csproj">
+    <ProjectReference Include="..\NemesisModCompanion\NemesisModCompanion.csproj">
       <Project>{a16025de-3a4e-4290-b038-1db08a1d5594}</Project>
       <Name>Nemesis-Mod-Companion</Name>
     </ProjectReference>
