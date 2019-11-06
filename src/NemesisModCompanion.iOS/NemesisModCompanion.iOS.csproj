@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{89a4fe7c-635d-49c9-8d8c-5cd363c0d68d}</TemplateGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Nemesis_Mod_Companion.iOS</RootNamespace>
+    <RootNamespace>NemesisModCompanion.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Nemesis-Mod-Companion.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
@@ -146,9 +146,10 @@
       <Name>NemesisModCompanion.Core.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\NemesisModCompanion\NemesisModCompanion.csproj">
-      <Project>{a16025de-3a4e-4290-b038-1db08a1d5594}</Project>
+      <Project>{25060d7c-2432-4189-8cb4-20fc9ab40511}</Project>
       <Name>NemesisModCompanion</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
