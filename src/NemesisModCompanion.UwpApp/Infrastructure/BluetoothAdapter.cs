@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
@@ -25,17 +30,34 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             var device = await BluetoothLEDevice.FromIdAsync(info.Id);
             if (device != null)
             {
+                var accessResult = await device.RequestAccessAsync();
+                if (accessResult != DeviceAccessStatus.Allowed)
+                {
+                    return;
+                }
+
                 var servicesQueryResult = await device.GetGattServicesAsync();
 
                 foreach (var service in servicesQueryResult.Services)
                 {
-                    var characteristicsQueryResult = await service.GetCharacteristicsAsync();
+                    var serviceUuid = service.Uuid.ToString();
+                    Debug.WriteLine($"Service: {serviceUuid}");
 
+                    var characteristicsQueryResult = await service.GetCharacteristicsAsync();
+                    
                     foreach (var characteristic in characteristicsQueryResult.Characteristics)
                     {
-                        if (characteristic != null)
+                        Debug.WriteLine($"Characteristic: {characteristic.Uuid}");
+
+                        if (characteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read))
                         {
-                            Debug.WriteLine(characteristic.Uuid.ToString());
+                            var value = await characteristic.ReadValueAsync();
+                            var bytes = value.Value.ToArray();
+
+                            if (bytes != null)
+                            {
+
+                            }
                         }
                     }
                 }
