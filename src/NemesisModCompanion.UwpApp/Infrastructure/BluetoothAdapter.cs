@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.Storage.Streams;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
@@ -36,14 +37,14 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                     return;
                 }
 
-                var servicesQueryResult = await device.GetGattServicesAsync();
+                var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-63c6-95b0-47be-c4d08729f1f0"));
 
                 foreach (var service in servicesQueryResult.Services)
                 {
                     var serviceUuid = service.Uuid.ToString();
                     Debug.WriteLine($"Service: {serviceUuid}");
 
-                    var characteristicsQueryResult = await service.GetCharacteristicsAsync();
+                    var characteristicsQueryResult = await service.GetCharacteristicsForUuidAsync(Guid.Parse("00000100-63c6-95b0-47be-c4d08729f1f0"));
                     
                     foreach (var characteristic in characteristicsQueryResult.Characteristics)
                     {
@@ -59,6 +60,11 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
                             }
                         }
+
+                        var writer = new DataWriter();
+                        writer.WriteByte(0x01);
+
+                        var writeResult = await characteristic.WriteValueAsync(writer.DetachBuffer());
                     }
                 }
             }
