@@ -37,37 +37,46 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                     return;
                 }
 
-                var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-63c6-95b0-47be-c4d08729f1f0"));
+                var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-0001-95b0-47be-c4d08729f1f0"));
 
                 foreach (var service in servicesQueryResult.Services)
                 {
                     var serviceUuid = service.Uuid.ToString();
                     Debug.WriteLine($"Service: {serviceUuid}");
 
-                    var characteristicsQueryResult = await service.GetCharacteristicsForUuidAsync(Guid.Parse("00000100-63c6-95b0-47be-c4d08729f1f0"));
+                    var characteristicsQueryResult = await service.GetCharacteristicsForUuidAsync(Guid.Parse("00000100-0001-95b0-47be-c4d08729f1f0"));
                     
                     foreach (var characteristic in characteristicsQueryResult.Characteristics)
                     {
                         Debug.WriteLine($"Characteristic: {characteristic.Uuid}");
 
-                        if (characteristic.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read))
-                        {
-                            var value = await characteristic.ReadValueAsync();
-                            var bytes = value.Value.ToArray();
+                        var value = await characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+                        var bytes = value.Value.ToArray();
 
-                            if (bytes != null)
-                            {
+                        PrintInt32FromArduino(bytes, "Before");
 
-                            }
-                        }
+                        var n = 125;
+                        bytes = BitConverter.GetBytes(n);
 
                         var writer = new DataWriter();
-                        writer.WriteByte(0x01);
+                        writer.WriteBytes(bytes);
 
                         var writeResult = await characteristic.WriteValueAsync(writer.DetachBuffer());
+
+                        value = await characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
+                        bytes = value.Value.ToArray();
+
+                        PrintInt32FromArduino(bytes, "After");
                     }
                 }
             }
+        }
+
+        private void PrintInt32FromArduino(byte[] bytes, string message)
+        {
+            var n = BitConverter.ToInt32(bytes, 0);
+
+            Debug.WriteLine($"{message}: {n}");
         }
 
         public void Go()
