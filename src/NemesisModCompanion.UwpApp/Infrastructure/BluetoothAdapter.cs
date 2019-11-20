@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.Foundation;
+using Windows.Storage.Streams;
+using Guid = System.Guid;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
@@ -14,6 +17,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         private GattCharacteristic flywheelM1CurrentMilliamps;
         private GattCharacteristic flywheelM2CurrentMilliamps;
         private GattCharacteristic beltM1CurrentMilliamps;
+        private GattCharacteristic flywheelSpeed;
 
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
 
@@ -31,6 +35,16 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             {
                 await info.Pairing.PairAsync();
             }
+        }
+
+        public async Task ChangeFlywheelSpeed(int value)
+        {
+            byte b = (byte)value;
+
+            var writer = new DataWriter();
+            writer.WriteBytes(new[] { b });
+
+            await flywheelSpeed.WriteValueAsync(writer.DetachBuffer());
         }
 
         public async Task AttachToDevice()
@@ -56,6 +70,8 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             }
 
             var characteristics = await service.GetCharacteristicsAsync();
+
+            flywheelSpeed = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000100-0000-95b0-47be-c4d08729f1f0"));
 
             flywheelM1CurrentMilliamps = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
             if (flywheelM1CurrentMilliamps != null)
