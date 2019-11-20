@@ -5,13 +5,37 @@
     xmlns:local="using:NemesisModCompanion.UwpApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:NemesisModCompanion.UwpApp.ViewModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <Button Click="ButtonBase1_OnClick">Connect</Button>
-            <Button Click="ButtonBase2_OnClick">Load</Button>
+    <Page.Resources>
+        <vm:MainViewModel x:Key="Vm"></vm:MainViewModel>
+    </Page.Resources>
+
+    <Grid DataContext="{StaticResource Vm}" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <Button x:Name="PairButton" Click="PairButton_OnClick">Pair</Button>
+            <Button x:Name="AttachButton" Click="AttachButton_OnClick">Attach to Device</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Margin="0,20,0,0" Orientation="Horizontal">
+            <TextBlock Margin="0,0,5,0">Flywheel M1 (mA):</TextBlock>
+            <TextBlock Text="{Binding FlywheelM1CurrentMilliamps, Mode=OneWay}"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="0,5,0,0" Orientation="Horizontal">
+            <TextBlock Margin="0,0,5,0">Flywheel M2 (mA):</TextBlock>
+            <TextBlock Text="{Binding FlywheelM2CurrentMilliamps, Mode=OneWay}"></TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Margin="0,5,0,0" Orientation="Horizontal">
+            <TextBlock Margin="0,0,5,0">Belt M1 (mA):</TextBlock>
+            <TextBlock Text="{Binding BeltM1CurrentMilliamps, Mode=OneWay}"></TextBlock>
         </StackPanel>
     </Grid>
 </Page>

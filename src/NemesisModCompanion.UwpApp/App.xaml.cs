@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -41,7 +42,7 @@ namespace NemesisModCompanion.UwpApp
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             BluetoothAdapter.Instance.Go();
-
+            
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (!(Window.Current.Content is Frame rootFrame))

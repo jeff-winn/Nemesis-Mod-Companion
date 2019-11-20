@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using NemesisModCompanion.UwpApp.Infrastructure;
+using NemesisModCompanion.UwpApp.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,21 +25,24 @@ namespace NemesisModCompanion.UwpApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private Task backgroundTask;
+        private readonly MainViewModel vm;
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            vm = (MainViewModel)Resources["Vm"];
+            vm.Initialize(Dispatcher);
         }
 
-        private async void ButtonBase1_OnClick(object sender, RoutedEventArgs e)
+        private async void AttachButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.AttachToDevice();
+        }
+
+        private async void PairButton_OnClick(object sender, RoutedEventArgs e)
         {
             await BluetoothAdapter.Instance.ConnectAsync();
-        }
-
-        private async void ButtonBase2_OnClick(object sender, RoutedEventArgs e)
-        {
-            await BluetoothAdapter.Instance.GetDevice();
         }
     }
 }

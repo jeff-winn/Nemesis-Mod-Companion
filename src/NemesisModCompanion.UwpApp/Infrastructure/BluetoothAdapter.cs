@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using Windows.Storage.Streams;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
     public class BluetoothAdapter
     {
+        private GattCharacteristic flywheelM1CurrentMilliamps;
+        private GattCharacteristic flywheelM2CurrentMilliamps;
+        private GattCharacteristic beltM1CurrentMilliamps;
+
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
 
         private DeviceInformation info;
+
+        public event EventHandler<ValueChangedEventArgs<int>> FlywheelM1CurrentMilliampsChanged;
+
+        public event EventHandler<ValueChangedEventArgs<int>> FlywheelM2CurrentMilliampsChanged;
+
+        public event EventHandler<ValueChangedEventArgs<int>> BeltM1CurrentMilliampsChanged;
 
         public async Task ConnectAsync()
         {
@@ -26,57 +33,101 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             }
         }
 
-        public async Task GetDevice()
+        public async Task AttachToDevice()
         {
             var device = await BluetoothLEDevice.FromIdAsync(info.Id);
-            if (device != null)
+            if (device == null)
             {
-                var accessResult = await device.RequestAccessAsync();
-                if (accessResult != DeviceAccessStatus.Allowed)
-                {
-                    return;
-                }
+                return;
+            }
 
-                var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-0001-95b0-47be-c4d08729f1f0"));
+            var accessResult = await device.RequestAccessAsync();
+            if (accessResult != DeviceAccessStatus.Allowed)
+            {
+                return;
+            }
 
-                foreach (var service in servicesQueryResult.Services)
-                {
-                    var serviceUuid = service.Uuid.ToString();
-                    Debug.WriteLine($"Service: {serviceUuid}");
+            var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-0000-95b0-47be-c4d08729f1f0"));
 
-                    var characteristicsQueryResult = await service.GetCharacteristicsForUuidAsync(Guid.Parse("00000100-0001-95b0-47be-c4d08729f1f0"));
-                    
-                    foreach (var characteristic in characteristicsQueryResult.Characteristics)
-                    {
-                        Debug.WriteLine($"Characteristic: {characteristic.Uuid}");
+            var service = servicesQueryResult.Services.SingleOrDefault();
+            if (service == null)
+            {
+                return;
+            }
 
-                        var value = await characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
-                        var bytes = value.Value.ToArray();
+            var characteristics = await service.GetCharacteristicsAsync();
 
-                        PrintInt32FromArduino(bytes, "Before");
+            flywheelM1CurrentMilliamps = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
+            if (flywheelM1CurrentMilliamps != null)
+            {
+                await flywheelM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                flywheelM1CurrentMilliamps.ValueChanged += OnFlywheelM1CurrentMilliampsChanged;
+            }
 
-                        var n = 125;
-                        bytes = BitConverter.GetBytes(n);
+            flywheelM2CurrentMilliamps = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000108-0000-95b0-47be-c4d08729f1f0"));
+            if (flywheelM2CurrentMilliamps != null)
+            {
+                await flywheelM2CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                flywheelM2CurrentMilliamps.ValueChanged += OnFlywheelM2CurrentMilliampsChanged;
+            }
 
-                        var writer = new DataWriter();
-                        writer.WriteBytes(bytes);
-
-                        var writeResult = await characteristic.WriteValueAsync(writer.DetachBuffer());
-
-                        value = await characteristic.ReadValueAsync(BluetoothCacheMode.Uncached);
-                        bytes = value.Value.ToArray();
-
-                        PrintInt32FromArduino(bytes, "After");
-                    }
-                }
+            beltM1CurrentMilliamps = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000109-0000-95b0-47be-c4d08729f1f0"));
+            if (beltM1CurrentMilliamps != null)
+            {
+                await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
             }
         }
 
-        private void PrintInt32FromArduino(byte[] bytes, string message)
+        private void OnFlywheelM1CurrentMilliampsChanged(object sender, GattValueChangedEventArgs e)
         {
-            var n = BitConverter.ToInt32(bytes, 0);
+            if (FlywheelM1CurrentMilliampsChanged == null)
+            {
+                return;
+            }
 
-            Debug.WriteLine($"{message}: {n}");
+            var bytes = e.CharacteristicValue.ToArray();
+            var i = BitConverter.ToInt32(bytes, 0);
+
+            FlywheelM1CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            {
+                Value = i,
+                Timestamp = e.Timestamp
+            });
+        }
+
+        private void OnFlywheelM2CurrentMilliampsChanged(object sender, GattValueChangedEventArgs e)
+        {
+            if (FlywheelM2CurrentMilliampsChanged == null)
+            {
+                return;
+            }
+
+            var bytes = e.CharacteristicValue.ToArray();
+            var i = BitConverter.ToInt32(bytes, 0);
+
+            FlywheelM2CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            {
+                Value = i,
+                Timestamp = e.Timestamp
+            });
+        }
+
+        private void OnBeltM1CurrentMilliampsChanged(object sender, GattValueChangedEventArgs e)
+        {
+            if (BeltM1CurrentMilliampsChanged == null)
+            {
+                return;
+            }
+
+            var bytes = e.CharacteristicValue.ToArray();
+            var i = BitConverter.ToInt32(bytes, 0);
+
+            BeltM1CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            {
+                Value = i,
+                Timestamp = e.Timestamp
+            });
         }
 
         public void Go()
