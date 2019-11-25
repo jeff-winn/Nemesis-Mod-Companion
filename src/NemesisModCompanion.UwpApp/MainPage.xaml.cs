@@ -49,5 +49,15 @@ namespace NemesisModCompanion.UwpApp
         {
             await BluetoothAdapter.Instance.ChangeFlywheelSpeed(255);
         }
+
+        private async void NormalSpeedButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeFlywheelSpeed(1);
+        }
+
+        private async void MediumSpeedButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeFlywheelSpeed(2);
+        }
     }
 }

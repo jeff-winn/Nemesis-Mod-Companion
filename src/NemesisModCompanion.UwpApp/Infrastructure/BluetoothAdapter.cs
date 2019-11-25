@@ -50,7 +50,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         public async Task AttachToDevice()
         {
             var device = await BluetoothLEDevice.FromIdAsync(info.Id);
-            if (device == null)
+            if (device == null || device.ConnectionStatus == BluetoothConnectionStatus.Disconnected)
             {
                 return;
             }

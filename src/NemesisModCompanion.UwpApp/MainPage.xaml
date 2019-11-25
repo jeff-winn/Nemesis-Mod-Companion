@@ -23,8 +23,12 @@
 
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <Button x:Name="PairButton" Click="PairButton_OnClick">Pair</Button>
-            <Button x:Name="AttachButton" Click="AttachButton_OnClick">Attach to Device</Button>
-            <Button x:Name="HighSpeedButton" Click="HighSpeedButton_OnClick">Enable High Speed</Button>
+            <Button x:Name="AttachButton" Click="AttachButton_OnClick" Margin="0,5,0,0">Attach to Device</Button>
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button x:Name="NormalSpeedButton" Click="NormalSpeedButton_OnClick">Normal Speed</Button>
+                <Button x:Name="MediumSpeedButton" Click="MediumSpeedButton_OnClick" Margin="5,0,0,0">Medium Speed</Button>
+                <Button x:Name="HighSpeedButton" Click="HighSpeedButton_OnClick" Margin="5,0,0,0">High Speed</Button>
+            </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="0,20,0,0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Flywheel M1 (mA):</TextBlock>
