@@ -37,12 +37,10 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             }
         }
 
-        public async Task ChangeFlywheelSpeed(int value)
+        public async Task ChangeFlywheelSpeed(byte value)
         {
-            byte b = (byte)value;
-
             var writer = new DataWriter();
-            writer.WriteBytes(new[] { b });
+            writer.WriteByte(value);
 
             await flywheelSpeed.WriteValueAsync(writer.DetachBuffer());
         }
