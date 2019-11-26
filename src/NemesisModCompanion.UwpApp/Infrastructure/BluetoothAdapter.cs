@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
-using Windows.Foundation;
 using Windows.Storage.Streams;
-using Guid = System.Guid;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
@@ -18,6 +16,8 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         private GattCharacteristic flywheelM2CurrentMilliamps;
         private GattCharacteristic beltM1CurrentMilliamps;
         private GattCharacteristic flywheelSpeed;
+        private GattCharacteristic flywheelM1TrimSpeed;
+        private GattCharacteristic flywheelM2TrimSpeed;
 
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
 
@@ -48,7 +48,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         public async Task AttachToDevice()
         {
             var device = await BluetoothLEDevice.FromIdAsync(info.Id);
-            if (device == null || device.ConnectionStatus == BluetoothConnectionStatus.Disconnected)
+            if (device == null)
             {
                 return;
             }
@@ -70,6 +70,8 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             var characteristics = await service.GetCharacteristicsAsync();
 
             flywheelSpeed = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000100-0000-95b0-47be-c4d08729f1f0"));
+            flywheelM1TrimSpeed = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000105-0000-95b0-47be-c4d08729f1f0"));
+            flywheelM2TrimSpeed = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000106-0000-95b0-47be-c4d08729f1f0"));
 
             flywheelM1CurrentMilliamps = characteristics.Characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
             if (flywheelM1CurrentMilliamps != null)
@@ -91,6 +93,30 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
             }
+        }
+
+        public int GetCurrentFlywheelSpeed()
+        {
+            var readResult = flywheelSpeed.ReadValueAsync().GetAwaiter().GetResult();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+        public float GetFlywheelM1TrimSpeed()
+        {
+            var readResult = flywheelM1TrimSpeed.ReadValueAsync().GetAwaiter().GetResult();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToSingle(bytes, 0);
+        }
+
+        public float GetFlywheelM2TrimSpeed()
+        {
+            var readResult = flywheelM2TrimSpeed.ReadValueAsync().GetAwaiter().GetResult();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToSingle(bytes, 0);
         }
 
         private void OnFlywheelM1CurrentMilliampsChanged(object sender, GattValueChangedEventArgs e)
@@ -146,7 +172,6 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
         public void Go()
         {
-
             // Query for extra properties you want returned
             string[] requestedProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected", "System.Devices.Aep.AepId" };
 
@@ -171,6 +196,22 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             {
                 info = args;
             }
+        }
+
+        public async Task ChangeTrimSpeeds(float flywheelM1TrimValue, float flywheelM2TrimValue)
+        {
+            var m1ValueBytes = BitConverter.GetBytes(flywheelM1TrimValue);
+            var m2ValueBytes = BitConverter.GetBytes(flywheelM2TrimValue);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(m1ValueBytes);
+
+            await flywheelM1TrimSpeed.WriteValueAsync(writer.DetachBuffer());
+
+            writer = new DataWriter();
+            writer.WriteBytes(m2ValueBytes);
+
+            await flywheelM2TrimSpeed.WriteValueAsync(writer.DetachBuffer());
         }
     }
 }

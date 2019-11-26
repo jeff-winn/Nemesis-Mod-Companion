@@ -59,6 +59,36 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
+        private double flywheelM1TrimValue;
+
+        public double FlywheelM1TrimValue
+        {
+            get => flywheelM1TrimValue;
+            set
+            {
+                if (!flywheelM1TrimValue.Equals(value))
+                {
+                    flywheelM1TrimValue = value;
+                    RaisePropertyChanged(nameof(FlywheelM1TrimValue));
+                }
+            }
+        }
+
+        private double flywheelM2TrimValue;
+
+        public double FlywheelM2TrimValue
+        {
+            get => flywheelM2TrimValue;
+            set
+            {
+                if (!flywheelM2TrimValue.Equals(value))
+                {
+                    flywheelM2TrimValue = value;
+                    RaisePropertyChanged(nameof(FlywheelM2TrimValue));
+                }
+            }
+        }
+
         public MainViewModel()
         {
             BluetoothAdapter.Instance.FlywheelM1CurrentMilliampsChanged += OnFlywheelM1CurrentMilliampsChanged;

@@ -19,6 +19,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical">
@@ -30,15 +33,35 @@
                 <Button x:Name="HighSpeedButton" Click="HighSpeedButton_OnClick" Margin="5,0,0,0">High Speed</Button>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1" Margin="0,20,0,0" Orientation="Horizontal">
+        <Grid Grid.Row="1" Margin="10,5,10,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,5,5,0">Flywheel M1 Trim:</TextBlock>
+            <Slider Grid.Row="0" Grid.Column="1" x:Name="FlywheelM1TrimSlider" Value="{Binding FlywheelM1TrimValue, Mode=TwoWay}"></Slider>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,5,5,0">Flywheel M2 Trim:</TextBlock>
+            <Slider Grid.Row="1" Grid.Column="1" x:Name="FlywheelM2TrimSlider" Value="{Binding FlywheelM2TrimValue, Mode=TwoWay}"></Slider>
+        </Grid>
+
+        <Button Grid.Row="3" x:Name="ApplyButton" Click="ApplyButton_OnClick">Apply Changes</Button>
+
+        <!-- Diagnostics -->
+        <StackPanel Grid.Row="4" Margin="0,20,0,0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Flywheel M1 (mA):</TextBlock>
             <TextBlock Text="{Binding FlywheelM1CurrentMilliamps, Mode=OneWay}"></TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="2" Margin="0,5,0,0" Orientation="Horizontal">
+        <StackPanel Grid.Row="5" Margin="0,5,0,0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Flywheel M2 (mA):</TextBlock>
             <TextBlock Text="{Binding FlywheelM2CurrentMilliamps, Mode=OneWay}"></TextBlock>
         </StackPanel>
-        <StackPanel Grid.Row="3" Margin="0,5,0,0" Orientation="Horizontal">
+        <StackPanel Grid.Row="6" Margin="0,5,0,0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Belt M1 (mA):</TextBlock>
             <TextBlock Text="{Binding BeltM1CurrentMilliamps, Mode=OneWay}"></TextBlock>
         </StackPanel>

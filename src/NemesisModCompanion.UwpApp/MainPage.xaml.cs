@@ -59,5 +59,12 @@ namespace NemesisModCompanion.UwpApp
         {
             await BluetoothAdapter.Instance.ChangeFlywheelSpeed(2);
         }
+
+        private async void ApplyButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeTrimSpeeds(
+                (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
+                (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
+        }
     }
 }
