@@ -66,5 +66,20 @@ namespace NemesisModCompanion.UwpApp
                 (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
                 (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
         }
+
+        private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeBeltSpeed(1);
+        }
+
+        private async void MediumBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeBeltSpeed(2);
+        }
+
+        private async void HighBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            await BluetoothAdapter.Instance.ChangeBeltSpeed(255);
+        }
     }
 }

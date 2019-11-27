@@ -27,13 +27,36 @@
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <Button x:Name="PairButton" Click="PairButton_OnClick">Pair</Button>
             <Button x:Name="AttachButton" Click="AttachButton_OnClick" Margin="0,5,0,0">Attach to Device</Button>
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <Button x:Name="NormalSpeedButton" Click="NormalSpeedButton_OnClick">Normal Speed</Button>
-                <Button x:Name="MediumSpeedButton" Click="MediumSpeedButton_OnClick" Margin="5,0,0,0">Medium Speed</Button>
-                <Button x:Name="HighSpeedButton" Click="HighSpeedButton_OnClick" Margin="5,0,0,0">High Speed</Button>
-            </StackPanel>
         </StackPanel>
-        <Grid Grid.Row="1" Margin="10,5,10,5">
+
+        <Grid Grid.Row="1" Margin="10,5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Flywheels:</TextBlock>
+            <Button x:Name="NormalSpeedButton" Grid.Row="0" Grid.Column="2" Click="NormalSpeedButton_OnClick">Normal Speed</Button>
+            <Button x:Name="MediumSpeedButton" Grid.Row="0" Grid.Column="4" Click="MediumSpeedButton_OnClick">Medium Speed</Button>
+            <Button x:Name="HighSpeedButton" Grid.Row="0" Grid.Column="6" Click="HighSpeedButton_OnClick">High Speed</Button>
+
+            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Belt:</TextBlock>
+            <Button x:Name="NormalBeltSpeedButton" Grid.Row="2" Grid.Column="2" Click="NormalBeltSpeedButton_OnClick">Normal Speed</Button>
+            <Button x:Name="MediumBeltSpeedButton" Grid.Row="2" Grid.Column="4" Click="MediumBeltSpeedButton_OnClick">Medium Speed</Button>
+            <Button x:Name="HighBeltSpeedButton" Grid.Row="2" Grid.Column="6" Click="HighBeltSpeedButton_OnClick">High Speed</Button>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="10,5,10,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -43,10 +66,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,5,5,0">Flywheel M1 Trim:</TextBlock>
+            <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M1 Trim:</TextBlock>
             <Slider Grid.Row="0" Grid.Column="1" x:Name="FlywheelM1TrimSlider" Value="{Binding FlywheelM1TrimValue, Mode=TwoWay}"></Slider>
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,5,5,0">Flywheel M2 Trim:</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M2 Trim:</TextBlock>
             <Slider Grid.Row="1" Grid.Column="1" x:Name="FlywheelM2TrimSlider" Value="{Binding FlywheelM2TrimValue, Mode=TwoWay}"></Slider>
         </Grid>
 
