@@ -23,12 +23,15 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
 
         private DeviceInformation info;
+        private BluetoothLEDevice device;
 
         public event EventHandler<ValueChangedEventArgs<int>> FlywheelM1CurrentMilliampsChanged;
 
         public event EventHandler<ValueChangedEventArgs<int>> FlywheelM2CurrentMilliampsChanged;
 
         public event EventHandler<ValueChangedEventArgs<int>> BeltM1CurrentMilliampsChanged;
+
+        public bool IsAttached => device != null;
 
         public async Task ConnectAsync()
         {
@@ -56,7 +59,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
         public async Task AttachToDevice()
         {
-            var device = await BluetoothLEDevice.FromIdAsync(info.Id);
+            device = await BluetoothLEDevice.FromIdAsync(info.Id);
             if (device == null)
             {
                 return;

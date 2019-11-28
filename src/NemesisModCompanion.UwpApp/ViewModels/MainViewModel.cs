@@ -89,6 +89,16 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
+        public bool IsAttached
+        {
+            get => BluetoothAdapter.Instance.IsAttached;
+        }
+
+        public void RaiseIsAttachedHasChanged()
+        {
+            RaisePropertyChanged(nameof(IsAttached));
+        }
+
         public MainViewModel()
         {
             BluetoothAdapter.Instance.FlywheelM1CurrentMilliampsChanged += OnFlywheelM1CurrentMilliampsChanged;

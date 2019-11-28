@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using NemesisModCompanion.UwpApp.Infrastructure;
+using NemesisModCompanion.UwpApp.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using NemesisModCompanion.UwpApp.Infrastructure;
-using NemesisModCompanion.UwpApp.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -38,6 +25,7 @@ namespace NemesisModCompanion.UwpApp
         private async void AttachButton_OnClick(object sender, RoutedEventArgs e)
         {
             await BluetoothAdapter.Instance.AttachToDevice();
+            vm.RaiseIsAttachedHasChanged();
         }
 
         private async void PairButton_OnClick(object sender, RoutedEventArgs e)
