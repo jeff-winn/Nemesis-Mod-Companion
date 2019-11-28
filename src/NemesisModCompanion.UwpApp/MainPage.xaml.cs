@@ -25,6 +25,8 @@ namespace NemesisModCompanion.UwpApp
         private async void AttachButton_OnClick(object sender, RoutedEventArgs e)
         {
             await BluetoothAdapter.Instance.AttachToDevice();
+            await vm.Refresh();
+
             vm.RaiseIsAttachedHasChanged();
         }
 
@@ -53,6 +55,9 @@ namespace NemesisModCompanion.UwpApp
             await BluetoothAdapter.Instance.ChangeTrimSpeeds(
                 (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
                 (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
+
+            await BluetoothAdapter.Instance.ChangeFeedMaxSpeed(
+                vm.FeedMaxSpeedValue);
         }
 
         private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)

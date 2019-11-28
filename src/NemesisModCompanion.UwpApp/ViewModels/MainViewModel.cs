@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using NemesisModCompanion.UwpApp.Infrastructure;
 using Windows.UI.Core;
@@ -12,6 +13,21 @@ namespace NemesisModCompanion.UwpApp.ViewModels
         public void Initialize(CoreDispatcher dispatcher)
         {
             this.dispatcher = dispatcher;
+        }
+
+        private int feedMaxSpeedValue;
+
+        public int FeedMaxSpeedValue
+        {
+            get => feedMaxSpeedValue;
+            set
+            {
+                if (feedMaxSpeedValue != value)
+                {
+                    feedMaxSpeedValue = value;
+                    RaisePropertyChanged(nameof(FeedMaxSpeedValue));
+                }
+            }
         }
 
         private int flywheelM1CurrentMilliamps;
@@ -42,6 +58,13 @@ namespace NemesisModCompanion.UwpApp.ViewModels
                     RaisePropertyChanged(nameof(FlywheelM2CurrentMilliamps));
                 }
             }
+        }
+
+        private void RaisePropertyChangedWithDispatch(string propertyName)
+        {
+            dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { RaisePropertyChanged(propertyName); })
+                .GetAwaiter()
+                .GetResult();
         }
 
         private int beltM1CurrentMilliamps;
@@ -104,6 +127,13 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             BluetoothAdapter.Instance.FlywheelM1CurrentMilliampsChanged += OnFlywheelM1CurrentMilliampsChanged;
             BluetoothAdapter.Instance.FlywheelM2CurrentMilliampsChanged += OnFlywheelM2CurrentMilliampsChanged;
             BluetoothAdapter.Instance.BeltM1CurrentMilliampsChanged += OnBeltM1CurrentMilliampsChanged;
+        }
+
+        public async Task Refresh()
+        {
+            FeedMaxSpeedValue = await BluetoothAdapter.Instance.GetBeltMaxSpeed();
+            FlywheelM1TrimValue = await BluetoothAdapter.Instance.GetFlywheelM1TrimSpeed() * 1024;
+            FlywheelM2TrimValue = await BluetoothAdapter.Instance.GetFlywheelM2TrimSpeed() * 1024;
         }
 
         private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)
