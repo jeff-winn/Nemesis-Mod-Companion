@@ -82,6 +82,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
             await AttachBlasterServices();
             await AttachConfigurationServices();
+            await AttachNotificationServices();
         }
 
         private async Task AttachBlasterServices()
@@ -105,28 +106,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             flywheelSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000100-0000-95b0-47be-c4d08729f1f0"));
             beltSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000101-0000-95b0-47be-c4d08729f1f0"));
             flywheelM1TrimSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000105-0000-95b0-47be-c4d08729f1f0"));
-            flywheelM2TrimSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000106-0000-95b0-47be-c4d08729f1f0"));
-
-            flywheelM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
-            if (flywheelM1CurrentMilliamps != null)
-            {
-                await flywheelM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-                flywheelM1CurrentMilliamps.ValueChanged += OnFlywheelM1CurrentMilliampsChanged;
-            }
-
-            flywheelM2CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000108-0000-95b0-47be-c4d08729f1f0"));
-            if (flywheelM2CurrentMilliamps != null)
-            {
-                await flywheelM2CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-                flywheelM2CurrentMilliamps.ValueChanged += OnFlywheelM2CurrentMilliampsChanged;
-            }
-
-            beltM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000109-0000-95b0-47be-c4d08729f1f0"));
-            if (beltM1CurrentMilliamps != null)
-            {
-                await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
-                beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
-            }
+            flywheelM2TrimSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000106-0000-95b0-47be-c4d08729f1f0"));           
         }
 
         private async Task AttachConfigurationServices()
@@ -148,6 +128,46 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             }
 
             beltMaxSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("0000010A-0001-95b0-47be-c4d08729f1f0"));
+        }
+
+        private async Task AttachNotificationServices()
+        {
+            var servicesQueryResult = await device.GetGattServicesForUuidAsync(Guid.Parse("6817ff09-0002-95b0-47be-c4d08729f1f0"));
+
+            var service = servicesQueryResult.Services.SingleOrDefault();
+            if (service == null)
+            {
+                return;
+            }
+
+            var characteristicsResult = await service.GetCharacteristicsAsync();
+            var characteristics = characteristicsResult.Characteristics;
+
+            foreach (var characteristic in characteristics)
+            {
+                Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
+            }
+
+            flywheelM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
+            if (flywheelM1CurrentMilliamps != null)
+            {
+                await flywheelM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                flywheelM1CurrentMilliamps.ValueChanged += OnFlywheelM1CurrentMilliampsChanged;
+            }
+
+            flywheelM2CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000108-0000-95b0-47be-c4d08729f1f0"));
+            if (flywheelM2CurrentMilliamps != null)
+            {
+                await flywheelM2CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                flywheelM2CurrentMilliamps.ValueChanged += OnFlywheelM2CurrentMilliampsChanged;
+            }
+
+            beltM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000109-0000-95b0-47be-c4d08729f1f0"));
+            if (beltM1CurrentMilliamps != null)
+            {
+                await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
+                beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
+            }
         }
 
         public async Task<int> GetBeltMaxSpeed()
