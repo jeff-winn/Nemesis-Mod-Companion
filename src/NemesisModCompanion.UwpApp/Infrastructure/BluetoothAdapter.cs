@@ -19,6 +19,11 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         private GattCharacteristic flywheelM1TrimSpeed;
         private GattCharacteristic flywheelM2TrimSpeed;
         private GattCharacteristic beltSpeed;
+
+        private GattCharacteristic flywheelNormalSpeed;
+        private GattCharacteristic flywheelKidSpeed;
+        private GattCharacteristic flywheelLudicrousSpeed;
+        private GattCharacteristic flywheelTrimVariance;
         private GattCharacteristic beltMaxSpeed;
 
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
@@ -40,6 +45,36 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             {
                 await info.Pairing.PairAsync();
             }
+        }
+
+        public async Task ChangeFlywheelNormalSpeed(int value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await flywheelNormalSpeed.WriteValueAsync(writer.DetachBuffer());
+        }
+
+        public async Task ChangeFlywheelKidSpeed(int value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await flywheelKidSpeed.WriteValueAsync(writer.DetachBuffer());
+        }
+
+        public async Task ChangeFlywheelLudicrousSpeed(int value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await flywheelLudicrousSpeed.WriteValueAsync(writer.DetachBuffer());
         }
 
         public async Task ChangeFeedMaxSpeed(int value)
@@ -103,10 +138,10 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
             }
 
-            flywheelSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000100-0000-95b0-47be-c4d08729f1f0"));
-            beltSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000101-0000-95b0-47be-c4d08729f1f0"));
-            flywheelM1TrimSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000105-0000-95b0-47be-c4d08729f1f0"));
-            flywheelM2TrimSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000106-0000-95b0-47be-c4d08729f1f0"));           
+            flywheelSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Speed");
+            beltSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Speed");
+            flywheelM1TrimSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel M1 Trim Speed");
+            flywheelM2TrimSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel M2 Trim Speed");
         }
 
         private async Task AttachConfigurationServices()
@@ -127,7 +162,12 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
             }
 
-            beltMaxSpeed = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("0000010A-0001-95b0-47be-c4d08729f1f0"));
+            beltMaxSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Max Speed");
+
+            flywheelKidSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Kid Speed");
+            flywheelNormalSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Normal Speed");
+            flywheelLudicrousSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Ludicrous Speed");
+            flywheelTrimVariance = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Trim Variance");
         }
 
         private async Task AttachNotificationServices()
@@ -148,21 +188,21 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
             }
 
-            flywheelM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000107-0000-95b0-47be-c4d08729f1f0"));
+            flywheelM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel M1 Current (mA)");
             if (flywheelM1CurrentMilliamps != null)
             {
                 await flywheelM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 flywheelM1CurrentMilliamps.ValueChanged += OnFlywheelM1CurrentMilliampsChanged;
             }
 
-            flywheelM2CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000108-0000-95b0-47be-c4d08729f1f0"));
+            flywheelM2CurrentMilliamps = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel M2 Current (mA)");
             if (flywheelM2CurrentMilliamps != null)
             {
                 await flywheelM2CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 flywheelM2CurrentMilliamps.ValueChanged += OnFlywheelM2CurrentMilliampsChanged;
             }
 
-            beltM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.Uuid == Guid.Parse("00000109-0000-95b0-47be-c4d08729f1f0"));
+            beltM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.UserDescription == "Belt M1 Current (mA)");
             if (beltM1CurrentMilliamps != null)
             {
                 await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
@@ -185,6 +225,31 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
             return BitConverter.ToInt32(bytes, 0);
         }
+
+        public async Task<int> GetFlywheelKidSpeed()
+        {
+            var readResult = await flywheelKidSpeed.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+        public async Task<int> GetFlywheelNormalSpeed()
+        {
+            var readResult = await flywheelNormalSpeed.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+        public async Task<int> GetFlywheelLudicrousSpeed()
+        {
+            var readResult = await flywheelLudicrousSpeed.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
 
         public async Task<float> GetFlywheelM1TrimSpeed()
         {
@@ -260,7 +325,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
             DeviceWatcher deviceWatcher =
                 DeviceInformation.CreateWatcher(
-                    BluetoothLEDevice.GetDeviceSelectorFromPairingState(false),
+                    BluetoothLEDevice.GetDeviceSelectorFromPairingState(true),
                     requestedProperties,
                     DeviceInformationKind.AssociationEndpoint);
 

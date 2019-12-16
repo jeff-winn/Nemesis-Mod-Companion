@@ -58,6 +58,15 @@ namespace NemesisModCompanion.UwpApp
 
             await BluetoothAdapter.Instance.ChangeFeedMaxSpeed(
                 vm.FeedMaxSpeedValue);
+
+            await BluetoothAdapter.Instance.ChangeFlywheelKidSpeed(
+                vm.FlywheelKidSpeedValue);
+
+            await BluetoothAdapter.Instance.ChangeFlywheelNormalSpeed(
+                vm.FlywheelNormalSpeedValue);
+
+            await BluetoothAdapter.Instance.ChangeFlywheelLudicrousSpeed(
+                vm.FlywheelLudicrousSpeedValue);
         }
 
         private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)

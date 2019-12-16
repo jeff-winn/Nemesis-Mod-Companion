@@ -60,6 +60,51 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
+        private int flywheelKidSpeed;
+
+        public int FlywheelKidSpeedValue
+        {
+            get => flywheelKidSpeed;
+            set
+            {
+                if (flywheelKidSpeed != value)
+                {
+                    flywheelKidSpeed = value;
+                    RaisePropertyChanged(nameof(FlywheelKidSpeedValue));
+                }
+            }
+        }
+
+        private int flywheelNormalSpeed;
+
+        public int FlywheelNormalSpeedValue
+        {
+            get => flywheelNormalSpeed;
+            set
+            {
+                if (flywheelNormalSpeed != value)
+                {
+                    flywheelNormalSpeed = value;
+                    RaisePropertyChanged(nameof(FlywheelNormalSpeedValue));
+                }
+            }
+        }
+
+        private int flywheelLudicrousSpeed;
+
+        public int FlywheelLudicrousSpeedValue
+        {
+            get => flywheelLudicrousSpeed;
+            set
+            {
+                if (flywheelLudicrousSpeed != value)
+                {
+                    flywheelLudicrousSpeed = value;
+                    RaisePropertyChanged(nameof(FlywheelLudicrousSpeedValue));
+                }
+            }
+        }
+
         private void RaisePropertyChangedWithDispatch(string propertyName)
         {
             dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { RaisePropertyChanged(propertyName); })
@@ -134,6 +179,9 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             FeedMaxSpeedValue = await BluetoothAdapter.Instance.GetBeltMaxSpeed();
             FlywheelM1TrimValue = await BluetoothAdapter.Instance.GetFlywheelM1TrimSpeed() * 1024;
             FlywheelM2TrimValue = await BluetoothAdapter.Instance.GetFlywheelM2TrimSpeed() * 1024;
+            FlywheelKidSpeedValue = await BluetoothAdapter.Instance.GetFlywheelKidSpeed();
+            FlywheelNormalSpeedValue = await BluetoothAdapter.Instance.GetFlywheelNormalSpeed();
+            FlywheelLudicrousSpeedValue = await BluetoothAdapter.Instance.GetFlywheelLudicrousSpeed();
         }
 
         private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)

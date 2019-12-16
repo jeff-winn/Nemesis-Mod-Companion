@@ -51,9 +51,9 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Flywheels:</TextBlock>
-                <Button x:Name="NormalSpeedButton" Grid.Row="0" Grid.Column="2" Click="NormalSpeedButton_OnClick">Normal Speed</Button>
-                <Button x:Name="MediumSpeedButton" Grid.Row="0" Grid.Column="4" Click="MediumSpeedButton_OnClick">Medium Speed</Button>
-                <Button x:Name="HighSpeedButton" Grid.Row="0" Grid.Column="6" Click="HighSpeedButton_OnClick">High Speed</Button>
+                <Button x:Name="NormalSpeedButton" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Click="NormalSpeedButton_OnClick">Kid Speed</Button>
+                <Button x:Name="MediumSpeedButton" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Click="MediumSpeedButton_OnClick">Normal Speed</Button>
+                <Button x:Name="HighSpeedButton" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" Click="HighSpeedButton_OnClick">Ludicrous Speed</Button>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Belt:</TextBlock>
                 <Button x:Name="NormalBeltSpeedButton" Grid.Row="2" Grid.Column="2" Click="NormalBeltSpeedButton_OnClick">Normal Speed</Button>
@@ -70,6 +70,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M1 Trim:</TextBlock>
@@ -80,6 +83,15 @@
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Feed Max Speed:</TextBlock>
                 <Slider Grid.Row="2" Grid.Column="1" x:Name="FeedMaxSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FeedMaxSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Kid Speed:</TextBlock>
+                <Slider Grid.Row="3" Grid.Column="1" x:Name="FlywheelKidSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelKidSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Normal Speed:</TextBlock>
+                <Slider Grid.Row="4" Grid.Column="1" x:Name="FlywheelNormalSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelNormalSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Ludicrous Speed:</TextBlock>
+                <Slider Grid.Row="5" Grid.Column="1" x:Name="FlywheelLudicrousSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelLudicrousSpeedValue, Mode=TwoWay}"></Slider>
             </Grid>
 
             <Button Grid.Row="2" x:Name="ApplyButton" Click="ApplyButton_OnClick">Apply Changes</Button>
