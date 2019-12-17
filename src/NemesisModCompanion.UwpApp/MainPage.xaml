@@ -74,6 +74,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M1 Trim:</TextBlock>
@@ -82,20 +84,26 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M2 Trim:</TextBlock>
                 <Slider Grid.Row="1" Grid.Column="1" x:Name="FlywheelM2TrimSlider" Minimum="0" Maximum="1024" Value="{Binding FlywheelM2TrimValue, Mode=TwoWay}"></Slider>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Feed Max Speed:</TextBlock>
-                <Slider Grid.Row="2" Grid.Column="1" x:Name="FeedMaxSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FeedMaxSpeedValue, Mode=TwoWay}"></Slider>
+                <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Feed Normal Speed:</TextBlock>
+                <Slider Grid.Row="2" Grid.Column="1" x:Name="FeedNormalSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FeedNormalSpeedValue, Mode=TwoWay}"></Slider>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Kid Speed:</TextBlock>
-                <Slider Grid.Row="3" Grid.Column="1" x:Name="FlywheelKidSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelKidSpeedValue, Mode=TwoWay}"></Slider>
+                <TextBlock Grid.Row="3" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Feed Medium Speed:</TextBlock>
+                <Slider Grid.Row="3" Grid.Column="1" x:Name="FeedMediumSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FeedMediumSpeedValue, Mode=TwoWay}"></Slider>
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Normal Speed:</TextBlock>
-                <Slider Grid.Row="4" Grid.Column="1" x:Name="FlywheelNormalSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelNormalSpeedValue, Mode=TwoWay}"></Slider>
+                <TextBlock Grid.Row="4" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Feed Max Speed:</TextBlock>
+                <Slider Grid.Row="4" Grid.Column="1" x:Name="FeedMaxSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FeedMaxSpeedValue, Mode=TwoWay}"></Slider>
 
-                <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Ludicrous Speed:</TextBlock>
-                <Slider Grid.Row="5" Grid.Column="1" x:Name="FlywheelLudicrousSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelLudicrousSpeedValue, Mode=TwoWay}"></Slider>
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Kid Speed:</TextBlock>
+                <Slider Grid.Row="5" Grid.Column="1" x:Name="FlywheelKidSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelKidSpeedValue, Mode=TwoWay}"></Slider>
 
-                <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Trim Variance:</TextBlock>
-                <Slider Grid.Row="6" Grid.Column="1" x:Name="FlywheelTrimVarianceSlider" Minimum="1" Maximum="100" Value="{Binding FlywheelTrimVarianceValue, Mode=TwoWay}"></Slider>
+                <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Normal Speed:</TextBlock>
+                <Slider Grid.Row="6" Grid.Column="1" x:Name="FlywheelNormalSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelNormalSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="7" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Ludicrous Speed:</TextBlock>
+                <Slider Grid.Row="7" Grid.Column="1" x:Name="FlywheelLudicrousSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelLudicrousSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="8" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Trim Variance:</TextBlock>
+                <Slider Grid.Row="8" Grid.Column="1" x:Name="FlywheelTrimVarianceSlider" Minimum="1" Maximum="100" Value="{Binding FlywheelTrimVarianceValue, Mode=TwoWay}"></Slider>
             </Grid>
 
             <Button Grid.Row="2" x:Name="ApplyButton" Click="ApplyButton_OnClick">Apply Changes</Button>

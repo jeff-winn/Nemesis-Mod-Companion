@@ -15,6 +15,36 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             this.dispatcher = dispatcher;
         }
 
+        private int feedNormalSpeedValue;
+
+        public int FeedNormalSpeedValue
+        {
+            get => feedNormalSpeedValue;
+            set
+            {
+                if (feedNormalSpeedValue != value)
+                {
+                    feedNormalSpeedValue = value;
+                    RaisePropertyChanged(nameof(FeedNormalSpeedValue));
+                }
+            }
+        }
+
+        private int feedMediumSpeedValue;
+
+        public int FeedMediumSpeedValue
+        {
+            get => feedMediumSpeedValue;
+            set
+            {
+                if (feedMediumSpeedValue != value)
+                {
+                    feedMediumSpeedValue = value;
+                    RaisePropertyChanged(nameof(FeedMediumSpeedValue));
+                }
+            }
+        }
+
         private int feedMaxSpeedValue;
 
         public int FeedMaxSpeedValue
@@ -191,6 +221,8 @@ namespace NemesisModCompanion.UwpApp.ViewModels
 
         public async Task Refresh()
         {
+            FeedNormalSpeedValue = await BluetoothAdapter.Instance.GetBeltNormalSpeed();
+            FeedMediumSpeedValue = await BluetoothAdapter.Instance.GetBeltMediumSpeed();
             FeedMaxSpeedValue = await BluetoothAdapter.Instance.GetBeltMaxSpeed();
             FlywheelM1TrimValue = await BluetoothAdapter.Instance.GetFlywheelM1TrimSpeed() * 1024;
             FlywheelM2TrimValue = await BluetoothAdapter.Instance.GetFlywheelM2TrimSpeed() * 1024;

@@ -56,6 +56,12 @@ namespace NemesisModCompanion.UwpApp
                 (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
                 (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
 
+            await BluetoothAdapter.Instance.ChangeFeedNormalSpeed(
+                vm.FeedNormalSpeedValue);
+
+            await BluetoothAdapter.Instance.ChangeFeedMediumSpeed(
+                vm.FeedMediumSpeedValue);
+
             await BluetoothAdapter.Instance.ChangeFeedMaxSpeed(
                 vm.FeedMaxSpeedValue);
 

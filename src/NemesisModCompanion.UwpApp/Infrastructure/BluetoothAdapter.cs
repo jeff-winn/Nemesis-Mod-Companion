@@ -24,6 +24,9 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         private GattCharacteristic flywheelKidSpeed;
         private GattCharacteristic flywheelLudicrousSpeed;
         private GattCharacteristic flywheelTrimVariance;
+
+        private GattCharacteristic beltNormalSpeed;
+        private GattCharacteristic beltMediumSpeed;
         private GattCharacteristic beltMaxSpeed;
 
         public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
@@ -75,6 +78,25 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             writer.WriteBytes(bytes);
 
             await flywheelLudicrousSpeed.WriteValueAsync(writer.DetachBuffer());
+        }
+
+        public async Task ChangeFeedNormalSpeed(int value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await beltNormalSpeed.WriteValueAsync(writer.DetachBuffer());
+        }
+        public async Task ChangeFeedMediumSpeed(int value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await beltMediumSpeed.WriteValueAsync(writer.DetachBuffer());
         }
 
         public async Task ChangeFeedMaxSpeed(int value)
@@ -174,6 +196,8 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
             }
 
+            beltNormalSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Normal Speed");
+            beltMediumSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Medium Speed");
             beltMaxSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Max Speed");
 
             flywheelKidSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Kid Speed");
@@ -230,10 +254,26 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             return BitConverter.ToSingle(bytes, 0);
         }
 
+        public async Task<int> GetBeltNormalSpeed()
+        {
+            var readResult = await beltNormalSpeed.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+        public async Task<int> GetBeltMediumSpeed()
+        {
+            var readResult = await beltMediumSpeed.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
         public async Task<int> GetBeltMaxSpeed()
         {
             var readResult = await beltMaxSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray().Reverse().ToArray();
+            var bytes = readResult.Value.ToArray();
 
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -274,7 +314,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         public async Task<float> GetFlywheelM1TrimSpeed()
         {
             var readResult = await flywheelM1TrimSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray().Reverse().ToArray();
+            var bytes = readResult.Value.ToArray();
 
             return BitConverter.ToSingle(bytes, 0);
         }
@@ -282,7 +322,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         public async Task<float> GetFlywheelM2TrimSpeed()
         {
             var readResult = await flywheelM2TrimSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray().Reverse().ToArray();
+            var bytes = readResult.Value.ToArray();
 
             return BitConverter.ToSingle(bytes, 0);
         }
