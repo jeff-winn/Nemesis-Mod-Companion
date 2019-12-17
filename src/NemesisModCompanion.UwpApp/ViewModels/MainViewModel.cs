@@ -30,6 +30,21 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
+        private double flywheelTrimVariance;
+
+        public double FlywheelTrimVarianceValue
+        {
+            get => flywheelTrimVariance;
+            set
+            {
+                if (flywheelTrimVariance != value)
+                {
+                    flywheelTrimVariance = value;
+                    RaisePropertyChanged(nameof(FlywheelTrimVarianceValue));
+                }
+            }
+        }
+
         private int flywheelM1CurrentMilliamps;
 
         public int FlywheelM1CurrentMilliamps
@@ -182,6 +197,7 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             FlywheelKidSpeedValue = await BluetoothAdapter.Instance.GetFlywheelKidSpeed();
             FlywheelNormalSpeedValue = await BluetoothAdapter.Instance.GetFlywheelNormalSpeed();
             FlywheelLudicrousSpeedValue = await BluetoothAdapter.Instance.GetFlywheelLudicrousSpeed();
+            FlywheelTrimVarianceValue = await BluetoothAdapter.Instance.GetFlywheelTrimVariance() * 100;
         }
 
         private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)

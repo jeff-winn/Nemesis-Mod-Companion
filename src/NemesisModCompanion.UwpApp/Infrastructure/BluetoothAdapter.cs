@@ -79,8 +79,10 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
         public async Task ChangeFeedMaxSpeed(int value)
         {
+            var bytes = BitConverter.GetBytes(value);
+
             var writer = new DataWriter();
-            writer.WriteInt32(value);
+            writer.WriteBytes(bytes);
 
             await beltMaxSpeed.WriteValueAsync(writer.DetachBuffer());
         }
@@ -99,6 +101,16 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             writer.WriteByte(value);
 
             await flywheelSpeed.WriteValueAsync(writer.DetachBuffer());
+        }
+
+        public async Task ChangeFlywheelTrimVariance(float value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+
+            var writer = new DataWriter();
+            writer.WriteBytes(bytes);
+
+            await flywheelTrimVariance.WriteValueAsync(writer.DetachBuffer());
         }
 
         public async Task AttachToDevice()
@@ -208,6 +220,14 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
             }
+        }
+
+        public async Task<float> GetFlywheelTrimVariance()
+        {
+            var readResult = await flywheelTrimVariance.ReadValueAsync();
+            var bytes = readResult.Value.ToArray();
+
+            return BitConverter.ToSingle(bytes, 0);
         }
 
         public async Task<int> GetBeltMaxSpeed()
@@ -348,13 +368,17 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
 
         public async Task ChangeTrimSpeeds(float flywheelM1TrimValue, float flywheelM2TrimValue)
         {
+            var bytes = BitConverter.GetBytes(flywheelM1TrimValue);
+
             var writer = new DataWriter();
-            writer.WriteSingle(flywheelM1TrimValue);
+            writer.WriteBytes(bytes);
             
             await flywheelM1TrimSpeed.WriteValueAsync(writer.DetachBuffer());
 
+            bytes = BitConverter.GetBytes(flywheelM2TrimValue);
+
             writer = new DataWriter();
-            writer.WriteSingle(flywheelM2TrimValue);
+            writer.WriteBytes(bytes);
 
             await flywheelM2TrimSpeed.WriteValueAsync(writer.DetachBuffer());
         }

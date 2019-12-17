@@ -73,6 +73,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel M1 Trim:</TextBlock>
@@ -92,6 +93,9 @@
 
                 <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Ludicrous Speed:</TextBlock>
                 <Slider Grid.Row="5" Grid.Column="1" x:Name="FlywheelLudicrousSpeedSlider" Minimum="0" Maximum="400" Value="{Binding FlywheelLudicrousSpeedValue, Mode=TwoWay}"></Slider>
+
+                <TextBlock Grid.Row="6" Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center">Flywheel Trim Variance:</TextBlock>
+                <Slider Grid.Row="6" Grid.Column="1" x:Name="FlywheelTrimVarianceSlider" Minimum="1" Maximum="100" Value="{Binding FlywheelTrimVarianceValue, Mode=TwoWay}"></Slider>
             </Grid>
 
             <Button Grid.Row="2" x:Name="ApplyButton" Click="ApplyButton_OnClick">Apply Changes</Button>

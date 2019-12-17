@@ -67,6 +67,9 @@ namespace NemesisModCompanion.UwpApp
 
             await BluetoothAdapter.Instance.ChangeFlywheelLudicrousSpeed(
                 vm.FlywheelLudicrousSpeedValue);
+
+            await BluetoothAdapter.Instance.ChangeFlywheelTrimVariance(
+                (float)(vm.FlywheelTrimVarianceValue / FlywheelTrimVarianceSlider.Maximum));
         }
 
         private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
