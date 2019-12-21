@@ -19,6 +19,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
         private GattCharacteristic flywheelM1TrimSpeed;
         private GattCharacteristic flywheelM2TrimSpeed;
         private GattCharacteristic beltSpeed;
+        private GattCharacteristic hopperLockEnabled;
 
         private GattCharacteristic flywheelNormalSpeed;
         private GattCharacteristic flywheelKidSpeed;
@@ -199,6 +200,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             beltNormalSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Normal Speed");
             beltMediumSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Medium Speed");
             beltMaxSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Max Speed");
+            hopperLockEnabled = characteristics.SingleOrDefault(o => o.UserDescription == "Hopper Lock Enabled");
 
             flywheelKidSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Kid Speed");
             flywheelNormalSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel Normal Speed");
@@ -244,6 +246,28 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
                 await beltM1CurrentMilliamps.WriteClientCharacteristicConfigurationDescriptorAsync(GattClientCharacteristicConfigurationDescriptorValue.Notify);
                 beltM1CurrentMilliamps.ValueChanged += OnBeltM1CurrentMilliampsChanged;
             }
+        }
+
+        public async Task ChangeHopperLockEnabled(bool value)
+        {
+            byte b = 0;
+            if (value)
+            {
+                b = 1;
+            }
+
+            var writer = new DataWriter();
+            writer.WriteByte(b);
+
+            await hopperLockEnabled.WriteValueAsync(writer.DetachBuffer());
+        }
+
+        public async Task<bool> GetHopperLockEnabled()
+        {
+            var readResult = await hopperLockEnabled.ReadValueAsync();
+            var value = readResult.Value.ToArray().Single();
+
+            return value != 0;
         }
 
         public async Task<float> GetFlywheelTrimVariance()

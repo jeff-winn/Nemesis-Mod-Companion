@@ -15,6 +15,21 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             this.dispatcher = dispatcher;
         }
 
+        private bool hopperLockEnabled;
+
+        public bool HopperLockEnabled
+        {
+            get => hopperLockEnabled;
+            set
+            {
+                if (hopperLockEnabled != value)
+                {
+                    hopperLockEnabled = value;
+                    RaisePropertyChanged(nameof(HopperLockEnabled));
+                }
+            }
+        }
+
         private int feedNormalSpeedValue;
 
         public int FeedNormalSpeedValue
@@ -230,6 +245,7 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             FlywheelNormalSpeedValue = await BluetoothAdapter.Instance.GetFlywheelNormalSpeed();
             FlywheelLudicrousSpeedValue = await BluetoothAdapter.Instance.GetFlywheelLudicrousSpeed();
             FlywheelTrimVarianceValue = await BluetoothAdapter.Instance.GetFlywheelTrimVariance() * 100;
+            HopperLockEnabled = await BluetoothAdapter.Instance.GetHopperLockEnabled();
         }
 
         private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)
