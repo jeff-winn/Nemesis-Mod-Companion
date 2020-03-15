@@ -9,6 +9,8 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Storage.Streams;
 
+#pragma warning disable S1450
+
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
     public class BluetoothAdapter : IBluetoothAdapter
