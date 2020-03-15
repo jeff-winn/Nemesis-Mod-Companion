@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using NemesisModCompanion.Core.Domain.Bluetooth;
-using NemesisModCompanion.UwpApp.Infrastructure;
 using Windows.UI.Core;
 
 namespace NemesisModCompanion.UwpApp.ViewModels
@@ -10,10 +9,16 @@ namespace NemesisModCompanion.UwpApp.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private CoreDispatcher dispatcher;
+        private IBluetoothAdapter bluetoothAdapter;
 
-        public void Initialize(CoreDispatcher dispatcher)
+        public void Initialize(CoreDispatcher dispatcher, IBluetoothAdapter bluetoothAdapter)
         {
             this.dispatcher = dispatcher;
+            this.bluetoothAdapter = bluetoothAdapter;
+
+            this.bluetoothAdapter.FlywheelM1CurrentMilliampsChanged += OnFlywheelM1CurrentMilliampsChanged;
+            this.bluetoothAdapter.FlywheelM2CurrentMilliampsChanged += OnFlywheelM2CurrentMilliampsChanged;
+            this.bluetoothAdapter.BeltM1CurrentMilliampsChanged += OnBeltM1CurrentMilliampsChanged;
         }
 
         private bool hopperLockEnabled;
@@ -213,7 +218,7 @@ namespace NemesisModCompanion.UwpApp.ViewModels
 
         public bool IsAttached
         {
-            get => BluetoothAdapter.Instance.IsAttached;
+            get => bluetoothAdapter.IsAttached;
         }
 
         public void RaiseIsAttachedHasChanged()
@@ -223,23 +228,20 @@ namespace NemesisModCompanion.UwpApp.ViewModels
 
         public MainViewModel()
         {
-            BluetoothAdapter.Instance.FlywheelM1CurrentMilliampsChanged += OnFlywheelM1CurrentMilliampsChanged;
-            BluetoothAdapter.Instance.FlywheelM2CurrentMilliampsChanged += OnFlywheelM2CurrentMilliampsChanged;
-            BluetoothAdapter.Instance.BeltM1CurrentMilliampsChanged += OnBeltM1CurrentMilliampsChanged;
         }
 
         public async Task Refresh()
         {
-            FeedNormalSpeedValue = await BluetoothAdapter.Instance.GetBeltNormalSpeed();
-            FeedMediumSpeedValue = await BluetoothAdapter.Instance.GetBeltMediumSpeed();
-            FeedMaxSpeedValue = await BluetoothAdapter.Instance.GetBeltMaxSpeed();
-            FlywheelM1TrimValue = await BluetoothAdapter.Instance.GetFlywheelM1TrimSpeed() * 1024;
-            FlywheelM2TrimValue = await BluetoothAdapter.Instance.GetFlywheelM2TrimSpeed() * 1024;
-            FlywheelKidSpeedValue = await BluetoothAdapter.Instance.GetFlywheelKidSpeed();
-            FlywheelNormalSpeedValue = await BluetoothAdapter.Instance.GetFlywheelNormalSpeed();
-            FlywheelLudicrousSpeedValue = await BluetoothAdapter.Instance.GetFlywheelLudicrousSpeed();
-            FlywheelTrimVarianceValue = await BluetoothAdapter.Instance.GetFlywheelTrimVariance() * 100;
-            HopperLockEnabled = await BluetoothAdapter.Instance.GetHopperLockEnabled();
+            FeedNormalSpeedValue = await bluetoothAdapter.GetBeltNormalSpeed();
+            FeedMediumSpeedValue = await bluetoothAdapter.GetBeltMediumSpeed();
+            FeedMaxSpeedValue = await bluetoothAdapter.GetBeltMaxSpeed();
+            FlywheelM1TrimValue = await bluetoothAdapter.GetFlywheelM1TrimSpeed() * 1024;
+            FlywheelM2TrimValue = await bluetoothAdapter.GetFlywheelM2TrimSpeed() * 1024;
+            FlywheelKidSpeedValue = await bluetoothAdapter.GetFlywheelKidSpeed();
+            FlywheelNormalSpeedValue = await bluetoothAdapter.GetFlywheelNormalSpeed();
+            FlywheelLudicrousSpeedValue = await bluetoothAdapter.GetFlywheelLudicrousSpeed();
+            FlywheelTrimVarianceValue = await bluetoothAdapter.GetFlywheelTrimVariance() * 100;
+            HopperLockEnabled = await bluetoothAdapter.GetHopperLockEnabled();
         }
 
         private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)

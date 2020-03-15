@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 
 #pragma warning disable S1450
 
-namespace NemesisModCompanion.UwpApp.Infrastructure
+namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
 {
     public class BluetoothAdapter : IBluetoothAdapter
     {
@@ -405,7 +405,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             });
         }
 
-        public void Go()
+        public void StartMonitoring()
         {
             // Query for extra properties you want returned
             string[] requestedProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected", "System.Devices.Aep.AepId" };

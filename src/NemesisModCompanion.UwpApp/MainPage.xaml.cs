@@ -1,4 +1,5 @@
-﻿using NemesisModCompanion.UwpApp.Infrastructure;
+﻿using NemesisModCompanion.Core.Domain.Bluetooth;
+using NemesisModCompanion.UwpApp.Infrastructure.Bluetooth;
 using NemesisModCompanion.UwpApp.ViewModels;
 using Windows.UI.Xaml;
 
@@ -10,18 +11,21 @@ namespace NemesisModCompanion.UwpApp
     public sealed partial class MainPage
     {
         private readonly MainViewModel vm;
+        private readonly IBluetoothAdapter bluetoothAdapter;
 
         public MainPage()
         {
             InitializeComponent();
 
             vm = (MainViewModel)Resources["Vm"];
-            vm.Initialize(Dispatcher);
+            bluetoothAdapter = BluetoothAdapter.Instance;
+
+            vm.Initialize(Dispatcher, bluetoothAdapter);
         }
 
         private async void AttachButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.AttachToDevice();
+            await bluetoothAdapter.AttachToDevice();
             await vm.Refresh();
 
             vm.RaiseIsAttachedHasChanged();
@@ -29,68 +33,68 @@ namespace NemesisModCompanion.UwpApp
 
         private async void PairButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ConnectAsync();
+            await bluetoothAdapter.ConnectAsync();
         }
 
         private async void HighSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeFlywheelSpeed(255);
+            await bluetoothAdapter.ChangeFlywheelSpeed(255);
         }
 
         private async void NormalSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeFlywheelSpeed(1);
+            await bluetoothAdapter.ChangeFlywheelSpeed(1);
         }
 
         private async void MediumSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeFlywheelSpeed(2);
+            await bluetoothAdapter.ChangeFlywheelSpeed(2);
         }
 
         private async void ApplyButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeTrimSpeeds(
+            await bluetoothAdapter.ChangeTrimSpeeds(
                 (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
                 (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
 
-            await BluetoothAdapter.Instance.ChangeFeedNormalSpeed(
+            await bluetoothAdapter.ChangeFeedNormalSpeed(
                 vm.FeedNormalSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFeedMediumSpeed(
+            await bluetoothAdapter.ChangeFeedMediumSpeed(
                 vm.FeedMediumSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFeedMaxSpeed(
+            await bluetoothAdapter.ChangeFeedMaxSpeed(
                 vm.FeedMaxSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFlywheelKidSpeed(
+            await bluetoothAdapter.ChangeFlywheelKidSpeed(
                 vm.FlywheelKidSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFlywheelNormalSpeed(
+            await bluetoothAdapter.ChangeFlywheelNormalSpeed(
                 vm.FlywheelNormalSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFlywheelLudicrousSpeed(
+            await bluetoothAdapter.ChangeFlywheelLudicrousSpeed(
                 vm.FlywheelLudicrousSpeedValue);
 
-            await BluetoothAdapter.Instance.ChangeFlywheelTrimVariance(
+            await bluetoothAdapter.ChangeFlywheelTrimVariance(
                 (float)(vm.FlywheelTrimVarianceValue / FlywheelTrimVarianceSlider.Maximum));
 
-            await BluetoothAdapter.Instance.ChangeHopperLockEnabled(
+            await bluetoothAdapter.ChangeHopperLockEnabled(
                 vm.HopperLockEnabled);
         }
 
         private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeBeltSpeed(1);
+            await bluetoothAdapter.ChangeBeltSpeed(1);
         }
 
         private async void MediumBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeBeltSpeed(2);
+            await bluetoothAdapter.ChangeBeltSpeed(2);
         }
 
         private async void HighBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await BluetoothAdapter.Instance.ChangeBeltSpeed(255);
+            await bluetoothAdapter.ChangeBeltSpeed(255);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using NemesisModCompanion.UwpApp.Infrastructure;
+using NemesisModCompanion.UwpApp.Infrastructure.Bluetooth;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -30,7 +30,7 @@ namespace NemesisModCompanion.UwpApp
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            BluetoothAdapter.Instance.Go();
+            BluetoothAdapter.Instance.StartMonitoring();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
