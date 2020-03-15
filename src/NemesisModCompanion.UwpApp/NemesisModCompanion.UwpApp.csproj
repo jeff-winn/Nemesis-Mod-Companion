@@ -121,7 +121,6 @@
     </Compile>
     <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
     <Compile Include="Infrastructure\BluetoothAdapter.cs" />
-    <Compile Include="Infrastructure\ValueChangedEventArgs.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -161,7 +160,12 @@
       <Version>5.4.1.1</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\NemesisModCompanion.Core.Domain\NemesisModCompanion.Core.Domain.csproj">
+      <Project>{BD6A7DBB-9F90-4AAC-842C-A9496AC1FF43}</Project>
+      <Name>NemesisModCompanion.Core.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

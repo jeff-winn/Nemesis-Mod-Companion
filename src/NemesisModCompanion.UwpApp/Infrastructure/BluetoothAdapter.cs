@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using NemesisModCompanion.Core.Domain.Bluetooth;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
@@ -10,7 +11,7 @@ using Windows.Storage.Streams;
 
 namespace NemesisModCompanion.UwpApp.Infrastructure
 {
-    public class BluetoothAdapter
+    public class BluetoothAdapter : IBluetoothAdapter
     {
         private GattCharacteristic flywheelM1CurrentMilliamps;
         private GattCharacteristic flywheelM2CurrentMilliamps;
@@ -430,16 +431,16 @@ namespace NemesisModCompanion.UwpApp.Infrastructure
             }
         }
 
-        public async Task ChangeTrimSpeeds(float flywheelM1TrimValue, float flywheelM2TrimValue)
+        public async Task ChangeTrimSpeeds(float m1TrimValue, float m2TrimValue)
         {
-            var bytes = BitConverter.GetBytes(flywheelM1TrimValue);
+            var bytes = BitConverter.GetBytes(m1TrimValue);
 
             var writer = new DataWriter();
             writer.WriteBytes(bytes);
             
             await flywheelM1TrimSpeed.WriteValueAsync(writer.DetachBuffer());
 
-            bytes = BitConverter.GetBytes(flywheelM2TrimValue);
+            bytes = BitConverter.GetBytes(m2TrimValue);
 
             writer = new DataWriter();
             writer.WriteBytes(bytes);

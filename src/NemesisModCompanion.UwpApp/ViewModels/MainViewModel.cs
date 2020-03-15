@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using NemesisModCompanion.Core.Domain.Bluetooth;
 using NemesisModCompanion.UwpApp.Infrastructure;
 using Windows.UI.Core;
 
@@ -82,7 +83,7 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             get => flywheelTrimVariance;
             set
             {
-                if (flywheelTrimVariance != value)
+                if (flywheelTrimVariance.Equals(value))
                 {
                     flywheelTrimVariance = value;
                     RaisePropertyChanged(nameof(FlywheelTrimVarianceValue));
@@ -163,13 +164,6 @@ namespace NemesisModCompanion.UwpApp.ViewModels
                     RaisePropertyChanged(nameof(FlywheelLudicrousSpeedValue));
                 }
             }
-        }
-
-        private void RaisePropertyChangedWithDispatch(string propertyName)
-        {
-            dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { RaisePropertyChanged(propertyName); })
-                .GetAwaiter()
-                .GetResult();
         }
 
         private int beltM1CurrentMilliamps;

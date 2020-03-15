@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NemesisModCompanion.UwpApp.Infrastructure
+namespace NemesisModCompanion.Core.Domain.Bluetooth
 {
     public class ValueChangedEventArgs<T> : EventArgs
     {
