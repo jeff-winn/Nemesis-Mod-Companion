@@ -410,9 +410,10 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             // Query for extra properties you want returned
             string[] requestedProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected", "System.Devices.Aep.AepId" };
 
+            // This needs to be changed based on whether the device has already been connected!
             DeviceWatcher deviceWatcher =
                 DeviceInformation.CreateWatcher(
-                    BluetoothLEDevice.GetDeviceSelectorFromPairingState(true),
+                    BluetoothLEDevice.GetDeviceSelectorFromPairingState(true), 
                     requestedProperties,
                     DeviceInformationKind.AssociationEndpoint);
 
