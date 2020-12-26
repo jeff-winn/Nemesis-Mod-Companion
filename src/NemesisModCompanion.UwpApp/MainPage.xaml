@@ -13,6 +13,7 @@
     <Page.Resources>
         <vm:MainViewModel x:Key="Vm"></vm:MainViewModel>
         <controls:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <controls:ByteToBooleanEqualityConverter x:Key="FlywheelSpeedCheckedConverter" />
     </Page.Resources>
 
     <Grid DataContext="{StaticResource Vm}" Margin="5">
@@ -51,14 +52,14 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Flywheels:</TextBlock>
-                <Button x:Name="NormalSpeedButton" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Click="NormalSpeedButton_OnClick">Kid Speed</Button>
-                <Button x:Name="MediumSpeedButton" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Click="MediumSpeedButton_OnClick">Normal Speed</Button>
-                <Button x:Name="HighSpeedButton" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" Click="HighSpeedButton_OnClick">Ludicrous Speed</Button>
-
+                <RadioButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=1}">Kid Speed</RadioButton>
+                <RadioButton Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=2}">Normal Speed</RadioButton>
+                <RadioButton Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=255}">Ludicrous Speed</RadioButton>
+                
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Belt:</TextBlock>
-                <Button x:Name="NormalBeltSpeedButton" Grid.Row="2" Grid.Column="2" Click="NormalBeltSpeedButton_OnClick">Normal Speed</Button>
-                <Button x:Name="MediumBeltSpeedButton" Grid.Row="2" Grid.Column="4" Click="MediumBeltSpeedButton_OnClick">Medium Speed</Button>
-                <Button x:Name="HighBeltSpeedButton" Grid.Row="2" Grid.Column="6" Click="HighBeltSpeedButton_OnClick">High Speed</Button>
+                <RadioButton Grid.Row="2" Grid.Column="2" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=1}">Normal Speed</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="4" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=2}">Medium Speed</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="6" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=255}">High Speed</RadioButton>
             </Grid>
 
             <Grid Grid.Row="1" Margin="10,5,10,5">

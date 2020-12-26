@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth.Advertisement;
 using GalaSoft.MvvmLight;
 using NemesisModCompanion.Core.Domain.Bluetooth;
 using Windows.UI.Core;
+using System.Diagnostics;
 
 namespace NemesisModCompanion.UwpApp.ViewModels
 {
@@ -126,6 +128,36 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
+        private byte currentFlywheelSpeed;
+
+        public byte CurrentFlywheelSpeed
+        {
+            get => currentFlywheelSpeed;
+            set
+            {
+                if (currentFlywheelSpeed != value)
+                {
+                    currentFlywheelSpeed = value;
+                    RaisePropertyChanged(nameof(CurrentFlywheelSpeed));
+                }
+            }
+        }
+
+        private byte currentBeltSpeed;
+
+        public byte CurrentBeltSpeed
+        {
+            get => currentBeltSpeed;
+            set
+            {
+                if (currentBeltSpeed != value)
+                {
+                    currentBeltSpeed = value;
+                    RaisePropertyChanged(nameof(CurrentBeltSpeed));
+                }
+            }
+        }
+
         private int flywheelKidSpeed;
 
         public int FlywheelKidSpeedValue
@@ -232,6 +264,8 @@ namespace NemesisModCompanion.UwpApp.ViewModels
 
         public async Task Refresh()
         {
+            CurrentFlywheelSpeed = await bluetoothAdapter.GetCurrentFlywheelSpeed();
+            CurrentBeltSpeed = await bluetoothAdapter.GetCurrentBeltSpeed();
             FeedNormalSpeedValue = await bluetoothAdapter.GetBeltNormalSpeed();
             FeedMediumSpeedValue = await bluetoothAdapter.GetBeltMediumSpeed();
             FeedMaxSpeedValue = await bluetoothAdapter.GetBeltMaxSpeed();

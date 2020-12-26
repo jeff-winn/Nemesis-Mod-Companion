@@ -36,23 +36,11 @@ namespace NemesisModCompanion.UwpApp
             await bluetoothAdapter.ConnectAsync();
         }
 
-        private async void HighSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeFlywheelSpeed(255);
-        }
-
-        private async void NormalSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeFlywheelSpeed(1);
-        }
-
-        private async void MediumSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeFlywheelSpeed(2);
-        }
-
         private async void ApplyButton_OnClick(object sender, RoutedEventArgs e)
         {
+            await bluetoothAdapter.ChangeBeltSpeed(vm.CurrentBeltSpeed);
+            await bluetoothAdapter.ChangeFlywheelSpeed(vm.CurrentFlywheelSpeed);
+
             await bluetoothAdapter.ChangeTrimSpeeds(
                 (float)(vm.FlywheelM1TrimValue / FlywheelM1TrimSlider.Maximum), 
                 (float)(vm.FlywheelM2TrimValue / FlywheelM2TrimSlider.Maximum));
@@ -80,21 +68,6 @@ namespace NemesisModCompanion.UwpApp
 
             await bluetoothAdapter.ChangeHopperLockEnabled(
                 vm.HopperLockEnabled);
-        }
-
-        private async void NormalBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeBeltSpeed(1);
-        }
-
-        private async void MediumBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeBeltSpeed(2);
-        }
-
-        private async void HighBeltSpeedButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await bluetoothAdapter.ChangeBeltSpeed(255);
         }
     }
 }

@@ -120,6 +120,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Controls\ByteToBooleanEqualityConverter.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothAdapter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

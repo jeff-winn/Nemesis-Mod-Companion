@@ -195,11 +195,6 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             var characteristicsResult = await service.GetCharacteristicsAsync();
             var characteristics = characteristicsResult.Characteristics;
 
-            foreach (var characteristic in characteristics)
-            {
-                Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
-            }
-
             beltNormalSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Normal Speed");
             beltMediumSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Medium Speed");
             beltMaxSpeed = characteristics.SingleOrDefault(o => o.UserDescription == "Belt Feed Max Speed");
@@ -224,10 +219,6 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             var characteristicsResult = await service.GetCharacteristicsAsync();
             var characteristics = characteristicsResult.Characteristics;
 
-            foreach (var characteristic in characteristics)
-            {
-                Debug.WriteLine($"{characteristic.Uuid} - {characteristic.UserDescription}");
-            }
 
             flywheelM1CurrentMilliamps = characteristics.SingleOrDefault(o => o.UserDescription == "Flywheel M1 Current (mA)");
             if (flywheelM1CurrentMilliamps != null)
@@ -305,12 +296,16 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             return BitConverter.ToInt32(bytes, 0);
         }
 
-        public async Task<int> GetCurrentFlywheelSpeed()
+        public async Task<byte> GetCurrentBeltSpeed()
+        {
+            var readResult = await beltSpeed.ReadValueAsync();
+            return readResult.Value.ToArray().Single();
+        }
+
+        public async Task<byte> GetCurrentFlywheelSpeed()
         {
             var readResult = await flywheelSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return readResult.Value.ToArray().Single();            
         }
 
         public async Task<int> GetFlywheelKidSpeed()
