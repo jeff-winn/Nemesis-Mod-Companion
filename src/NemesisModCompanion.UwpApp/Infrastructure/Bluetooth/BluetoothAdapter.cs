@@ -33,7 +33,7 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
         private GattCharacteristic beltMediumSpeed;
         private GattCharacteristic beltMaxSpeed;
 
-        public static BluetoothAdapter Instance { get; } = new BluetoothAdapter();
+        public static IBluetoothAdapter Instance { get; } = new BluetoothAdapter();
 
         private DeviceInformation info;
         private BluetoothLEDevice device;
@@ -56,87 +56,46 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
 
         public async Task ChangeFlywheelNormalSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await flywheelNormalSpeed.WriteValueAsync(writer.DetachBuffer());
+            await flywheelNormalSpeed.WriteInt32Async(value);
         }
 
         public async Task ChangeFlywheelKidSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await flywheelKidSpeed.WriteValueAsync(writer.DetachBuffer());
+            await flywheelKidSpeed.WriteInt32Async(value);
         }
 
         public async Task ChangeFlywheelLudicrousSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await flywheelLudicrousSpeed.WriteValueAsync(writer.DetachBuffer());
+            await flywheelLudicrousSpeed.WriteInt32Async(value);
         }
 
         public async Task ChangeFeedNormalSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await beltNormalSpeed.WriteValueAsync(writer.DetachBuffer());
+            await beltNormalSpeed.WriteInt32Async(value);
         }
         public async Task ChangeFeedMediumSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await beltMediumSpeed.WriteValueAsync(writer.DetachBuffer());
+            await beltMediumSpeed.WriteInt32Async(value);
         }
 
         public async Task ChangeFeedMaxSpeed(int value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await beltMaxSpeed.WriteValueAsync(writer.DetachBuffer());
+            await beltMaxSpeed.WriteInt32Async(value);
         }
 
         public async Task ChangeBeltSpeed(byte value)
         {
-            var writer = new DataWriter();
-            writer.WriteByte(value);
-
-            await beltSpeed.WriteValueAsync(writer.DetachBuffer());
+            await beltSpeed.WriteByteAsync(value);
         }
 
         public async Task ChangeFlywheelSpeed(byte value)
         {
-            var writer = new DataWriter();
-            writer.WriteByte(value);
-
-            await flywheelSpeed.WriteValueAsync(writer.DetachBuffer());
+            await flywheelSpeed.WriteByteAsync(value);
         }
 
         public async Task ChangeFlywheelTrimVariance(float value)
         {
-            var bytes = BitConverter.GetBytes(value);
-
-            var writer = new DataWriter();
-            writer.WriteBytes(bytes);
-
-            await flywheelTrimVariance.WriteValueAsync(writer.DetachBuffer());
+            await flywheelTrimVariance.WriteFloatAsync(value);
         }
 
         public async Task AttachToDevice()
@@ -251,102 +210,69 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             }
 
             var writer = new DataWriter();
-            writer.WriteByte(b);
+            writer.WriteByte(b);           
 
             await hopperLockEnabled.WriteValueAsync(writer.DetachBuffer());
         }
 
         public async Task<bool> GetHopperLockEnabled()
         {
-            var readResult = await hopperLockEnabled.ReadValueAsync();
-            var value = readResult.Value.ToArray().Single();
-
-            return value != 0;
+            return await hopperLockEnabled.ReadBoolAsync();
         }
 
         public async Task<float> GetFlywheelTrimVariance()
         {
-            var readResult = await flywheelTrimVariance.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToSingle(bytes, 0);
+            return await flywheelTrimVariance.ReadFloatAsync();;
         }
 
         public async Task<int> GetBeltNormalSpeed()
         {
-            var readResult = await beltNormalSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await beltNormalSpeed.ReadInt32Async();
         }
 
         public async Task<int> GetBeltMediumSpeed()
         {
-            var readResult = await beltMediumSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await beltMediumSpeed.ReadInt32Async();
         }
 
         public async Task<int> GetBeltMaxSpeed()
         {
-            var readResult = await beltMaxSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await beltMaxSpeed.ReadInt32Async();
         }
 
         public async Task<byte> GetCurrentBeltSpeed()
         {
-            var readResult = await beltSpeed.ReadValueAsync();
-            return readResult.Value.ToArray().Single();
+            return await beltSpeed.ReadByteAsync();
         }
 
         public async Task<byte> GetCurrentFlywheelSpeed()
         {
-            var readResult = await flywheelSpeed.ReadValueAsync();
-            return readResult.Value.ToArray().Single();            
+            return await flywheelSpeed.ReadByteAsync();            
         }
 
         public async Task<int> GetFlywheelKidSpeed()
         {
-            var readResult = await flywheelKidSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await flywheelKidSpeed.ReadInt32Async();
         }
 
         public async Task<int> GetFlywheelNormalSpeed()
         {
-            var readResult = await flywheelNormalSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await flywheelNormalSpeed.ReadInt32Async();
         }
 
         public async Task<int> GetFlywheelLudicrousSpeed()
         {
-            var readResult = await flywheelLudicrousSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToInt32(bytes, 0);
+            return await flywheelLudicrousSpeed.ReadInt32Async();
         }
-
 
         public async Task<float> GetFlywheelM1TrimSpeed()
         {
-            var readResult = await flywheelM1TrimSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToSingle(bytes, 0);
+            return await flywheelM1TrimSpeed.ReadFloatAsync();
         }
 
         public async Task<float> GetFlywheelM2TrimSpeed()
         {
-            var readResult = await flywheelM2TrimSpeed.ReadValueAsync();
-            var bytes = readResult.Value.ToArray();
-
-            return BitConverter.ToSingle(bytes, 0);
+            return await flywheelM2TrimSpeed.ReadFloatAsync();
         }
 
         private void OnFlywheelM1CurrentMilliampsChanged(object sender, GattValueChangedEventArgs e)
