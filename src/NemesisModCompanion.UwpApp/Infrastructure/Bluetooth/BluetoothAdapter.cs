@@ -38,11 +38,11 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
         private DeviceInformation info;
         private BluetoothLEDevice device;
 
-        public event EventHandler<ValueChangedEventArgs<int>> FlywheelM1CurrentMilliampsChanged;
+        public event EventHandler<CurrentChangedEventArgs> FlywheelM1CurrentMilliampsChanged;
 
-        public event EventHandler<ValueChangedEventArgs<int>> FlywheelM2CurrentMilliampsChanged;
+        public event EventHandler<CurrentChangedEventArgs> FlywheelM2CurrentMilliampsChanged;
 
-        public event EventHandler<ValueChangedEventArgs<int>> BeltM1CurrentMilliampsChanged;
+        public event EventHandler<CurrentChangedEventArgs> BeltM1CurrentMilliampsChanged;
 
         public bool IsAttached => device != null;
 
@@ -285,9 +285,9 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             var bytes = e.CharacteristicValue.ToArray();
             var i = BitConverter.ToInt32(bytes, 0);
 
-            FlywheelM1CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            FlywheelM1CurrentMilliampsChanged(this, new CurrentChangedEventArgs
             {
-                Value = i,
+                Milliamps = i,
                 Timestamp = e.Timestamp
             });
         }
@@ -302,9 +302,9 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             var bytes = e.CharacteristicValue.ToArray();
             var i = BitConverter.ToInt32(bytes, 0);
 
-            FlywheelM2CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            FlywheelM2CurrentMilliampsChanged(this, new CurrentChangedEventArgs
             {
-                Value = i,
+                Milliamps = i,
                 Timestamp = e.Timestamp
             });
         }
@@ -319,9 +319,9 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             var bytes = e.CharacteristicValue.ToArray();
             var i = BitConverter.ToInt32(bytes, 0);
 
-            BeltM1CurrentMilliampsChanged(this, new ValueChangedEventArgs<int>
+            BeltM1CurrentMilliampsChanged(this, new CurrentChangedEventArgs
             {
-                Value = i,
+                Milliamps = i,
                 Timestamp = e.Timestamp
             });
         }

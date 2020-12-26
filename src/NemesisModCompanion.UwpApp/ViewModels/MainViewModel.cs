@@ -278,27 +278,27 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             HopperLockEnabled = await bluetoothAdapter.GetHopperLockEnabled();
         }
 
-        private async void OnBeltM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)
+        private async void OnBeltM1CurrentMilliampsChanged(object sender, CurrentChangedEventArgs e)
         {
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                BeltM1CurrentMilliamps = e.Value;
+                BeltM1CurrentMilliamps = e.Milliamps;
             });
         }
 
-        private async void OnFlywheelM1CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)
+        private async void OnFlywheelM1CurrentMilliampsChanged(object sender, CurrentChangedEventArgs e)
         {
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                FlywheelM1CurrentMilliamps = e.Value;
+                FlywheelM1CurrentMilliamps = e.Milliamps;
             });
         }
 
-        private async void OnFlywheelM2CurrentMilliampsChanged(object sender, ValueChangedEventArgs<int> e)
+        private async void OnFlywheelM2CurrentMilliampsChanged(object sender, CurrentChangedEventArgs e)
         {
             await dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                FlywheelM2CurrentMilliamps = e.Value;
+                FlywheelM2CurrentMilliamps = e.Milliamps;
             });
         }
     }

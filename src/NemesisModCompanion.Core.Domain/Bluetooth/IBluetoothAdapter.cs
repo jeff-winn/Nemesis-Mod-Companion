@@ -5,11 +5,11 @@ namespace NemesisModCompanion.Core.Domain.Bluetooth
 {
     public interface IBluetoothAdapter
     {
-        event EventHandler<ValueChangedEventArgs<int>> FlywheelM1CurrentMilliampsChanged;
+        event EventHandler<CurrentChangedEventArgs> FlywheelM1CurrentMilliampsChanged;
 
-        event EventHandler<ValueChangedEventArgs<int>> FlywheelM2CurrentMilliampsChanged;
+        event EventHandler<CurrentChangedEventArgs> FlywheelM2CurrentMilliampsChanged;
 
-        event EventHandler<ValueChangedEventArgs<int>> BeltM1CurrentMilliampsChanged;
+        event EventHandler<CurrentChangedEventArgs> BeltM1CurrentMilliampsChanged;
 
         bool IsAttached { get; }
 

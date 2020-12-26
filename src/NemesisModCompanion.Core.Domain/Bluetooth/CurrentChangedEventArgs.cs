@@ -2,9 +2,10 @@
 
 namespace NemesisModCompanion.Core.Domain.Bluetooth
 {
-    public class ValueChangedEventArgs<T> : EventArgs
+    public class CurrentChangedEventArgs
     {
-        public T Value { get; set; }
+        public int Milliamps { get; set; }
+
         public DateTimeOffset Timestamp { get; set; }
     }
 }
