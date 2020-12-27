@@ -128,9 +128,9 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
-        private byte currentFlywheelSpeed;
+        private FlywheelSpeed currentFlywheelSpeed;
 
-        public byte CurrentFlywheelSpeed
+        public FlywheelSpeed CurrentFlywheelSpeed
         {
             get => currentFlywheelSpeed;
             set
@@ -143,9 +143,9 @@ namespace NemesisModCompanion.UwpApp.ViewModels
             }
         }
 
-        private byte currentBeltSpeed;
+        private BeltSpeed currentBeltSpeed;
 
-        public byte CurrentBeltSpeed
+        public BeltSpeed CurrentBeltSpeed
         {
             get => currentBeltSpeed;
             set

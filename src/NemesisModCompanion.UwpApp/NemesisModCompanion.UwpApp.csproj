@@ -120,8 +120,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BeltSpeedToBooleanValueConverter.cs" />
     <Compile Include="Controls\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Controls\ByteToBooleanEqualityConverter.cs" />
+    <Compile Include="Controls\FlywheelSpeedToBooleanValueConverter.cs" />
     <Compile Include="Infrastructure\Bluetooth\BluetoothAdapter.cs" />
     <Compile Include="Infrastructure\Bluetooth\GattCharacteristicExtensions.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -156,8 +157,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>5.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.9</Version>
+      <Version>6.2.11</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.4.1.1</Version>

@@ -27,9 +27,9 @@ namespace NemesisModCompanion.Core.Domain.Bluetooth
 
         Task<int> GetBeltNormalSpeed();
 
-        Task<byte> GetCurrentBeltSpeed();
+        Task<BeltSpeed> GetCurrentBeltSpeed();
 
-        Task<byte> GetCurrentFlywheelSpeed();
+        Task<FlywheelSpeed> GetCurrentFlywheelSpeed();
 
         Task<int> GetFlywheelKidSpeed();
 
@@ -57,9 +57,9 @@ namespace NemesisModCompanion.Core.Domain.Bluetooth
 
         Task ChangeFeedMaxSpeed(int value);
 
-        Task ChangeBeltSpeed(byte value);
+        Task ChangeBeltSpeed(BeltSpeed value);
 
-        Task ChangeFlywheelSpeed(byte value);
+        Task ChangeFlywheelSpeed(FlywheelSpeed value);
 
         Task ChangeFlywheelTrimVariance(float value);
     }

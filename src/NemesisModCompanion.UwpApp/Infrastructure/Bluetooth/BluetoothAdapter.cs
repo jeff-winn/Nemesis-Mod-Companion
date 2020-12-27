@@ -83,14 +83,14 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             await beltMaxSpeed.WriteInt32Async(value);
         }
 
-        public async Task ChangeBeltSpeed(byte value)
+        public async Task ChangeBeltSpeed(BeltSpeed value)
         {
-            await beltSpeed.WriteByteAsync(value);
+            await beltSpeed.WriteByteAsync((byte)value);
         }
 
-        public async Task ChangeFlywheelSpeed(byte value)
+        public async Task ChangeFlywheelSpeed(FlywheelSpeed value)
         {
-            await flywheelSpeed.WriteByteAsync(value);
+            await flywheelSpeed.WriteByteAsync((byte)value);
         }
 
         public async Task ChangeFlywheelTrimVariance(float value)
@@ -240,14 +240,14 @@ namespace NemesisModCompanion.UwpApp.Infrastructure.Bluetooth
             return await beltMaxSpeed.ReadInt32Async();
         }
 
-        public async Task<byte> GetCurrentBeltSpeed()
+        public async Task<BeltSpeed> GetCurrentBeltSpeed()
         {
-            return await beltSpeed.ReadByteAsync();
+            return (BeltSpeed) await beltSpeed.ReadByteAsync();
         }
 
-        public async Task<byte> GetCurrentFlywheelSpeed()
+        public async Task<FlywheelSpeed> GetCurrentFlywheelSpeed()
         {
-            return await flywheelSpeed.ReadByteAsync();            
+            return (FlywheelSpeed) await flywheelSpeed.ReadByteAsync();            
         }
 
         public async Task<int> GetFlywheelKidSpeed()

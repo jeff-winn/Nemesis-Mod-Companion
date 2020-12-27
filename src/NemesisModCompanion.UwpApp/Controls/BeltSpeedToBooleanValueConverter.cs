@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NemesisModCompanion.Core.Domain.Bluetooth;
+using System;
 using Windows.UI.Xaml.Data;
 
 namespace NemesisModCompanion.UwpApp.Controls
 {
-    class ByteToBooleanEqualityConverter : IValueConverter
+    class BeltSpeedToBooleanValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -16,15 +13,15 @@ namespace NemesisModCompanion.UwpApp.Controls
                 return false;
             }
 
-            var b = (byte)value;
-            var p = byte.Parse((string)parameter);
+            var b = (BeltSpeed)(byte)value;
+            var p = Enum.Parse<BeltSpeed>((string)parameter);
 
             return b == p;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return byte.Parse((string)parameter);
+            return Enum.Parse<BeltSpeed>((string)parameter);
         }
     }
 }

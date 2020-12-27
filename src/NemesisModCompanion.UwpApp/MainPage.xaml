@@ -11,9 +11,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <vm:MainViewModel x:Key="Vm"></vm:MainViewModel>
+        <vm:MainViewModel x:Key="Vm" />
         <controls:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <controls:ByteToBooleanEqualityConverter x:Key="FlywheelSpeedCheckedConverter" />
+        <controls:FlywheelSpeedToBooleanValueConverter x:Key="FlywheelSpeedConverter" />
+        <controls:BeltSpeedToBooleanValueConverter x:Key="BeltSpeedConverter" />
     </Page.Resources>
 
     <Grid DataContext="{StaticResource Vm}" Margin="5">
@@ -52,14 +53,14 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Flywheels:</TextBlock>
-                <RadioButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=1}">Kid Speed</RadioButton>
-                <RadioButton Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=2}">Normal Speed</RadioButton>
-                <RadioButton Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=255}">Ludicrous Speed</RadioButton>
+                <RadioButton Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedConverter}, ConverterParameter=Kid}">Kid Speed</RadioButton>
+                <RadioButton Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedConverter}, ConverterParameter=Normal}">Normal Speed</RadioButton>
+                <RadioButton Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" GroupName="FlywheelSpeedGroup" IsChecked="{Binding CurrentFlywheelSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedConverter}, ConverterParameter=Ludicrous}">Ludicrous Speed</RadioButton>
                 
                 <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center">Belt:</TextBlock>
-                <RadioButton Grid.Row="2" Grid.Column="2" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=1}">Normal Speed</RadioButton>
-                <RadioButton Grid.Row="2" Grid.Column="4" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=2}">Medium Speed</RadioButton>
-                <RadioButton Grid.Row="2" Grid.Column="6" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource FlywheelSpeedCheckedConverter}, ConverterParameter=255}">High Speed</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="2" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource BeltSpeedConverter}, ConverterParameter=Normal}">Normal Speed</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="4" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource BeltSpeedConverter}, ConverterParameter=Medium}">Medium Speed</RadioButton>
+                <RadioButton Grid.Row="2" Grid.Column="6" GroupName="BeltSpeedGroup" IsChecked="{Binding CurrentBeltSpeed, Mode=TwoWay, Converter={StaticResource BeltSpeedConverter}, ConverterParameter=Max}">High Speed</RadioButton>
             </Grid>
 
             <Grid Grid.Row="1" Margin="10,5,10,5">
